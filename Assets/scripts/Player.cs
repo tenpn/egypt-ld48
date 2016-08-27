@@ -14,6 +14,9 @@ class Player : MonoBehaviour {
     public PlayerIndex Index {
         get { return p; }
     }
+
+    // match starts with no firing
+    public bool HoldFire = true;
     
     //////////////////////////////////////////////////
 
@@ -21,7 +24,7 @@ class Player : MonoBehaviour {
     [SerializeField] Transform emittPoint;
     [SerializeField] float fireForce;
     [SerializeField] float rotateSpeed;
-    [SerializeField] float cooldown = 1.5f;
+    [SerializeField] float cooldown = 1f;
 
     [SerializeField] PlayerIndex p;
 
@@ -40,7 +43,7 @@ class Player : MonoBehaviour {
 
         timeToFire -= Time.deltaTime;
 
-        if (timeToFire <= 0f && Input.GetButtonDown(button)) {
+        if (HoldFire == false && timeToFire <= 0f && Input.GetButtonDown(button)) {
             var newBall = Instantiate(ballPrefab);
             newBall.owner = this;
             newBall.transform.position = emittPoint.position;

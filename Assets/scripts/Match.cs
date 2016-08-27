@@ -18,6 +18,13 @@ class Match : MonoBehaviour {
         return players[0].Index == p ? players[0] : players[1];
     }
 
+    public bool HoldFire {
+        get { return players[0].HoldFire; }
+        set {
+            players[0].HoldFire = players[1].HoldFire = value;
+        }
+    }
+
     //////////////////////////////////////////////////
 
     int[] scores = new int[2];
