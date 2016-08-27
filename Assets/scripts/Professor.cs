@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 class Professor : MonoBehaviour {
 
@@ -9,7 +10,8 @@ class Professor : MonoBehaviour {
     enum State {
         Tutorial,
         WaitForFirstScore,
-        Hint,
+        WaitForRules,
+        Rules,
     }
 
     State currentState;
@@ -43,15 +45,7 @@ class Professor : MonoBehaviour {
             "Play a few rounds and let me know how you get on!\n",
         };
 
-        foreach(var text in sequence) {
-            speechBox.text = text;
-
-            while(Input.GetButtonDown("P1Fire") == false
-                  && Input.GetButtonDown("P2Fire") == false) {
-                yield return null;
-            }
-            yield return null;
-        }
+        yield return StartCoroutine(PlayScript(sequence));
 
         continueHelper.SetActive(false);
         activeMatch.HoldFire = false;
@@ -64,8 +58,15 @@ class Professor : MonoBehaviour {
             speechBox.text = string.Format("Congratulations, {0}! That's it!\n\nYou both seem to be getting the hang of it. Carry on while I return to the dig.\n",
                                            p.Name);
             root.SetActive(true);
-            currentState = State.Hint;
+            currentState = State.WaitForRules;
             HideInSeconds(5);
+            
+        } else if (currentState == State.WaitForRules) {
+            if (activeMatch.TotalGoalsScored > 5) {
+                currentState = State.Rules;
+                StopAllCoroutines();
+                StartCoroutine(RulesScript());
+            }
         }
     }
 
@@ -77,5 +78,44 @@ class Professor : MonoBehaviour {
         var waiter = new WaitForSecondsRealtime(delay);
         yield return waiter;
         root.SetActive(false);
+    }
+
+    IEnumerator RulesScript() {
+        activeMatch.RequestPause = true;
+        activeMatch.HoldFire = true;
+        root.SetActive(true);
+
+        var rulesIntro = new string[]{
+            "Hang on a second...\n\n",
+            "...what's this??\n\n",
+            "I appear to have discovered a hieroglyphic tablet that pertains to our little sport!\n\nIt's incomplete, but let's see if I can make it out...\n",
+            "...yes...\n",
+            "\n...yes...\n",
+            "\n\n...yes!",
+            "Umm, it turns out we've been playing it a little bit wrong.\n",
+            "It says here that goals should be worth double points!\n",
+        };
+
+        yield return StartCoroutine(PlayScript(rulesIntro));
+
+        activeMatch.ActiveBallMods.Add(new BallMod {PointsMul = 2f});
+
+        activeMatch.RequestPause = false;
+        activeMatch.HoldFire = false;
+
+        speechBox.text = "Try playing some more. I'll be back if I find anything else!\n";
+        HideInSeconds(5);
+    }
+
+    IEnumerator PlayScript(IList<string> script) {
+        foreach(var text in script) {
+            speechBox.text = text;
+
+            while(Input.GetButtonDown("P1Fire") == false
+                  && Input.GetButtonDown("P2Fire") == false) {
+                yield return null;
+            }
+            yield return null;
+        }        
     }
 }
