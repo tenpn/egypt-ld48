@@ -6,6 +6,15 @@ class Player : MonoBehaviour {
         get { return p.ToString(); }
     }
     
+    public enum PlayerIndex {
+        P1,
+        P2,
+    }
+
+    public PlayerIndex Index {
+        get { return p; }
+    }
+    
     //////////////////////////////////////////////////
 
     [SerializeField] Ball ballPrefab;
@@ -14,10 +23,6 @@ class Player : MonoBehaviour {
     [SerializeField] float rotateSpeed;
     [SerializeField] float cooldown = 1.5f;
 
-    enum PlayerIndex {
-        P1,
-        P2,
-    }
     [SerializeField] PlayerIndex p;
 
     float timeToFire = 0f;
