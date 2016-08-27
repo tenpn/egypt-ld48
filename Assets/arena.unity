@@ -336,6 +336,7 @@ GameObject:
   - 114: {fileID: 264724950}
   - 114: {fileID: 264724949}
   - 114: {fileID: 264724948}
+  - 95: {fileID: 264724951}
   m_Layer: 5
   m_Name: P1Score
   m_TagString: Untagged
@@ -360,8 +361,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 100}
+  m_AnchoredPosition: {x: 10, y: -10}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &264724948
 MonoBehaviour:
@@ -375,7 +376,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
-  m_VerticalFit: 0
+  m_VerticalFit: 2
 --- !u!114 &264724949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,7 +396,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_Spacing: 8.71
   m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandHeight: 0
 --- !u!114 &264724950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,6 +411,23 @@ MonoBehaviour:
   targetPlayer: 0
   nameLabel: {fileID: 1089889969}
   scoreLabel: {fileID: 1014310433}
+--- !u!95 &264724951
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 264724946}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8daa525d2e97542ea84ede05e9f63beb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &319998850
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,7 +972,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
-    m_MaxSize: 40
+    m_MaxSize: 51
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1628,6 +1646,7 @@ GameObject:
   - 114: {fileID: 1700737742}
   - 114: {fileID: 1700737741}
   - 114: {fileID: 1700737740}
+  - 95: {fileID: 1700737743}
   m_Layer: 5
   m_Name: 'P2Score '
   m_TagString: Untagged
@@ -1652,8 +1671,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 100}
+  m_AnchoredPosition: {x: -10, y: -10}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1700737740
 MonoBehaviour:
@@ -1667,7 +1686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
-  m_VerticalFit: 0
+  m_VerticalFit: 2
 --- !u!114 &1700737741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1687,7 +1706,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_Spacing: 8.71
   m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandHeight: 0
 --- !u!114 &1700737742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1702,3 +1721,20 @@ MonoBehaviour:
   targetPlayer: 1
   nameLabel: {fileID: 607852696}
   scoreLabel: {fileID: 1483927940}
+--- !u!95 &1700737743
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1700737738}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8daa525d2e97542ea84ede05e9f63beb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1

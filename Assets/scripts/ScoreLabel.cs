@@ -5,6 +5,7 @@ class ScoreLabel : MonoBehaviour {
 
     //////////////////////////////////////////////////
 
+    Animator anims;
     Match activeMatch;
     [SerializeField] Player.PlayerIndex targetPlayer;
 
@@ -14,6 +15,7 @@ class ScoreLabel : MonoBehaviour {
     //////////////////////////////////////////////////
 
     void Start() {
+        anims = GetComponent<Animator>();
         activeMatch = FindObjectOfType<Match>();
         activeMatch.ScoreUpdated += OnNewScore;
         nameLabel.text = activeMatch.GetPlayer(targetPlayer).Name;
@@ -23,6 +25,7 @@ class ScoreLabel : MonoBehaviour {
     void OnNewScore(Player p, int newScore) {
         if (p.Index == targetPlayer) {
             scoreLabel.text = newScore.ToString();
+            anims.SetTrigger("on-score-inc");
         }
     }
 }
