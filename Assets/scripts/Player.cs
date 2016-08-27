@@ -36,8 +36,13 @@ class Player : MonoBehaviour {
     [SerializeField] PlayerIndex p;
 
     float timeToFire = 0f;
+    Match activeMatch;
 
     //////////////////////////////////////////////////
+
+    void Awake() {
+        activeMatch = FindObjectOfType<Match>();
+    }
 
     void FixedUpdate() {
         var axis = p == PlayerIndex.P1 ? "P1Aim" : "P2Aim";
@@ -75,9 +80,13 @@ class Player : MonoBehaviour {
             newBall.owner = this;
             newBall.transform.position = emittPoint.position;
             newBall.Color = p == PlayerIndex.P1 ? p1BallCol : p2BallCol;
+
+            activeMatch.ApplyMods(newBall);
+            
             float flipper = transform.localScale.x;
-            float force =
-                fireForce + Random.Range(-fireForceRandomDelta, fireForceRandomDelta);
+            float force = fireForce
+                + Random.Range(-fireForceRandomDelta, fireForceRandomDelta)
+                + newBall.AdditionalPower;
             newBall.phys.AddForce(transform.right * force * flipper);
             timeToFire = cooldown;
             shootPfx.Play();

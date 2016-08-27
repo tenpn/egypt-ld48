@@ -14,7 +14,7 @@ class Goal : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other) {
         var ball = other.GetComponent<Ball>();
         if (ball != null && ball.owner != null) {
-            activeMatch.Score(ball.owner);
+            activeMatch.Score(ball);
             Destroy(other.gameObject);
         }
     }
