@@ -8,7 +8,6 @@ class Match : MonoBehaviour {
     public void Score(Player scorer) {
         int pIndex = scorer == players[0] ? 0 : 1;
         ++scores[pIndex];
-        Debug.Log("player " + scorer.Name + " scored!");
         if (ScoreUpdated != null) {
             ScoreUpdated(scorer, scores[pIndex]);
         }
