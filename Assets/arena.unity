@@ -2756,6 +2756,7 @@ GameObject:
   - 4: {fileID: 897416053}
   - 198: {fileID: 897416051}
   - 199: {fileID: 897416052}
+  - 114: {fileID: 897416054}
   m_Layer: 0
   m_Name: GoalEmitter
   m_TagString: Untagged
@@ -4554,6 +4555,17 @@ Transform:
   - {fileID: 33009538}
   m_Father: {fileID: 870294423}
   m_RootOrder: 9
+--- !u!114 &897416054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 897416050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c986565b0bdac4229ab4ab1ad9b990a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &953198622
 GameObject:
   m_ObjectHideFlags: 0
@@ -4714,7 +4726,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1048900470}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -9.46, z: 0}
+  m_LocalPosition: {x: 0, y: -9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []

@@ -12,6 +12,7 @@ class Match : MonoBehaviour {
             ScoreUpdated(scorer, scores[pIndex]);
         }
         goalCelebration.Play();
+        freeze += 0.15f;
     }
 
     public Player GetPlayer(Player.PlayerIndex p) {
@@ -29,6 +30,7 @@ class Match : MonoBehaviour {
 
     int[] scores = new int[2];
     Player[] players;
+    float freeze = 0f;
 
     [SerializeField] ParticleSystem goalCelebration;
 
@@ -36,5 +38,11 @@ class Match : MonoBehaviour {
 
     void Awake() {
         players = FindObjectsOfType<Player>();
+    }
+
+    void Update() {
+        freeze -= Time.unscaledDeltaTime;
+        freeze = Mathf.Max(0f, freeze);
+        Time.timeScale = freeze == 0f ? 1f : 0f;
     }
 }
