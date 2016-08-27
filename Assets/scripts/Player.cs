@@ -28,7 +28,8 @@ class Player : MonoBehaviour {
         if (Input.GetButtonDown(button)) {
             var newBall = Instantiate(ballPrefab);
             newBall.transform.position = emittPoint.position;
-            newBall.AddForce(transform.right * fireForce);
+            float flipper = p == PlayerIndex.P1 ? 1f : -1f;
+            newBall.AddForce(transform.right * fireForce * flipper);
         }
     }
 }
