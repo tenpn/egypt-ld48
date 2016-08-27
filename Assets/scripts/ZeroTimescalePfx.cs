@@ -11,7 +11,7 @@ public class ZeroTimescalePfx : MonoBehaviour
     
     void Update() {
         if (Time.timeScale < 0.01f) {
-            //pfx.Simulate(Time.unscaledDeltaTime, true, false);
+            pfx.Simulate(Time.unscaledDeltaTime, true, false);
         }
     }
 }
