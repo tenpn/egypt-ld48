@@ -80,6 +80,13 @@ class Professor : MonoBehaviour {
         root.SetActive(false);
     }
 
+    IEnumerator WaitForGoals(int goalDelta) {
+        int goalTarget = activeMatch.TotalGoalsScored + goalDelta;
+        while(activeMatch.TotalGoalsScored < goalTarget) {
+            yield return null;
+        }
+    }
+
     IEnumerator RulesScript() {
         activeMatch.RequestPause = true;
         activeMatch.HoldFire = true;
@@ -107,11 +114,7 @@ class Professor : MonoBehaviour {
 
         yield return StartCoroutine(WaitThenHide(5));
 
-        int goalsScored = activeMatch.TotalGoalsScored;
-        int targetGoals = goalsScored + 10;
-        while(activeMatch.TotalGoalsScored < targetGoals) {
-            yield return null;
-        }
+        yield return StartCoroutine(WaitForGoals(10));
 
         activeMatch.RequestPause = true;
         activeMatch.HoldFire = true;
@@ -129,7 +132,25 @@ class Professor : MonoBehaviour {
 
         speechBox.text = "Back to the dig!\n\nI'll figure this out, or my name isn't Professor St John Hamilton She-Ra Ludum The Third!";
 
-        HideInSeconds(5f);
+        yield return StartCoroutine(WaitThenHide(5));
+
+        yield return StartCoroutine(WaitForGoals(5));
+
+        activeMatch.ActiveBallMods.Add(new BallMod {
+                MassMul = 2.5f,
+                PowerAdd = 350f,
+            });
+
+        var massModScript = new string[] {
+            "A beautiful tablet!\n\nAnd it says the balls should be heavier!",
+        };
+        root.SetActive(true);
+        foreach(var line in massModScript) {
+            speechBox.text = line;
+            var waiter = new WaitForSecondsRealtime(5);
+            yield return waiter;
+        }
+        root.SetActive(false);
     }
 
     IEnumerator PlayScript(IList<string> script) {
