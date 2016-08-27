@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddf022cbf9e7848dc906c06c08efb7d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballPrefab: {fileID: 50000011509531042, guid: 93afd3a62b9c14241a585a7b5087e919,
+  ballPrefab: {fileID: 114000014268496800, guid: 93afd3a62b9c14241a585a7b5087e919,
     type: 2}
   emittPoint: {fileID: 4000012302165660}
   fireForce: 400

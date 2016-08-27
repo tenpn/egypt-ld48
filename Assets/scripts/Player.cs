@@ -3,7 +3,7 @@ using UnityEngine;
 class Player : MonoBehaviour {
     //////////////////////////////////////////////////
 
-    [SerializeField] Rigidbody2D ballPrefab;
+    [SerializeField] Ball ballPrefab;
     [SerializeField] Transform emittPoint;
     [SerializeField] float fireForce;
     [SerializeField] float rotateSpeed;
@@ -27,9 +27,10 @@ class Player : MonoBehaviour {
 
         if (Input.GetButtonDown(button)) {
             var newBall = Instantiate(ballPrefab);
+            newBall.owner = this;
             newBall.transform.position = emittPoint.position;
             float flipper = p == PlayerIndex.P1 ? 1f : -1f;
-            newBall.AddForce(transform.right * fireForce * flipper);
+            newBall.phys.AddForce(transform.right * fireForce * flipper);
         }
     }
 }
