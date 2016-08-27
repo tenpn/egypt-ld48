@@ -6,18 +6,28 @@ class Professor : MonoBehaviour {
 
     //////////////////////////////////////////////////
 
+    enum State {
+        Tutorial,
+        WaitForFirstScore,
+        Hint,
+    }
+
+    State currentState;
     Match activeMatch;
     [SerializeField] Text speechBox;
     [SerializeField] GameObject continueHelper;
+    [SerializeField] GameObject root;
 
     //////////////////////////////////////////////////
 
     void Start() {
         activeMatch = FindObjectOfType<Match>();
+        activeMatch.ScoreUpdated += OnScore;
         StartCoroutine(MatchTutorial());
     }
 
     IEnumerator MatchTutorial() {
+        currentState = State.Tutorial;
         activeMatch.HoldFire = true;
 
         continueHelper.SetActive(true);
@@ -45,6 +55,27 @@ class Professor : MonoBehaviour {
 
         continueHelper.SetActive(false);
         activeMatch.HoldFire = false;
-        gameObject.SetActive(false);
+        root.SetActive(false);
+        currentState = State.WaitForFirstScore;
+    }
+
+    void OnScore(Player p, int newScore) {
+        if (currentState == State.WaitForFirstScore) {
+            speechBox.text = string.Format("Congratulations, {0}! That's it!\n\nYou both seem to be getting the hang of it. Carry on while I return to the dig.\n",
+                                           p.Name);
+            root.SetActive(true);
+            currentState = State.Hint;
+            HideInSeconds(5);
+        }
+    }
+
+    void HideInSeconds(float delay) {
+        StartCoroutine(WaitThenHide(delay));
+    }
+
+    IEnumerator WaitThenHide(float delay) {
+        var waiter = new WaitForSecondsRealtime(delay);
+        yield return waiter;
+        root.SetActive(false);
     }
 }
