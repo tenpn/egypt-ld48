@@ -37,7 +37,7 @@ class Professor : MonoBehaviour {
             speechBox.text = text;
 
             while(Input.GetButtonDown("P1Fire") == false
-                  && Input.GetButtonDown("P1Fire") == false) {
+                  && Input.GetButtonDown("P2Fire") == false) {
                 yield return null;
             }
             yield return null;
