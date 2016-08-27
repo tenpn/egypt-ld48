@@ -26,6 +26,8 @@ class Player : MonoBehaviour {
     [SerializeField] float rotateSpeed;
     [SerializeField] float cooldown = 1f;
     [SerializeField] SpriteRenderer statusLight;
+    [SerializeField] float minAngle = -20f;
+    [SerializeField] float maxAngle = 30f;
 
     [SerializeField] PlayerIndex p;
 
@@ -35,11 +37,26 @@ class Player : MonoBehaviour {
 
     void FixedUpdate() {
         var axis = p == PlayerIndex.P1 ? "P1Aim" : "P2Aim";
-        var button = p == PlayerIndex.P1 ? "P1Fire" : "P2Fire";
-
         var aim = Input.GetAxis(axis);
         var currentAngles = transform.eulerAngles;
-        currentAngles.z += aim * rotateSpeed * Time.deltaTime;
+
+        // wrap back into range so 0 is flat
+        while(currentAngles.z > 180) {
+            currentAngles.z -= 360;
+        }
+
+        while(currentAngles.z < -180) {
+            currentAngles.z += 360;
+        }
+
+        // players are on different sides, so different actions depending on flip
+
+        currentAngles.z += aim * rotateSpeed * Time.deltaTime * transform.localScale.x;
+        if (transform.localScale.x > 0f) {
+            currentAngles.z = Mathf.Clamp(currentAngles.z, minAngle, maxAngle);
+        } else {
+            currentAngles.z = Mathf.Clamp(currentAngles.z, -maxAngle, -minAngle);
+        }
         transform.eulerAngles = currentAngles;
 
         timeToFire -= Time.deltaTime;
@@ -48,11 +65,12 @@ class Player : MonoBehaviour {
 
         statusLight.color = canFire ? Color.green : Color.red;
 
+        var button = p == PlayerIndex.P1 ? "P1Fire" : "P2Fire";
         if (canFire && Input.GetButtonDown(button)) {
             var newBall = Instantiate(ballPrefab);
             newBall.owner = this;
             newBall.transform.position = emittPoint.position;
-            float flipper = p == PlayerIndex.P1 ? 1f : -1f;
+            float flipper = transform.localScale.x;
             newBall.phys.AddForce(transform.right * fireForce * flipper);
             timeToFire = cooldown;
         }
