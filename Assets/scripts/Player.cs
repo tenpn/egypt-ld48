@@ -12,12 +12,15 @@ class Player : MonoBehaviour {
     [SerializeField] Transform emittPoint;
     [SerializeField] float fireForce;
     [SerializeField] float rotateSpeed;
+    [SerializeField] float cooldown = 1.5f;
 
     enum PlayerIndex {
         P1,
         P2,
     }
     [SerializeField] PlayerIndex p;
+
+    float timeToFire = 0f;
 
     //////////////////////////////////////////////////
 
@@ -30,12 +33,15 @@ class Player : MonoBehaviour {
         currentAngles.z += aim * rotateSpeed * Time.deltaTime;
         transform.eulerAngles = currentAngles;
 
-        if (Input.GetButtonDown(button)) {
+        timeToFire -= Time.deltaTime;
+
+        if (timeToFire <= 0f && Input.GetButtonDown(button)) {
             var newBall = Instantiate(ballPrefab);
             newBall.owner = this;
             newBall.transform.position = emittPoint.position;
             float flipper = p == PlayerIndex.P1 ? 1f : -1f;
             newBall.phys.AddForce(transform.right * fireForce * flipper);
+            timeToFire = cooldown;
         }
     }
 }
