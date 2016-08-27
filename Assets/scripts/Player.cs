@@ -1,6 +1,11 @@
 using UnityEngine;
 
 class Player : MonoBehaviour {
+
+    public string Name {
+        get { return p.ToString(); }
+    }
+    
     //////////////////////////////////////////////////
 
     [SerializeField] Ball ballPrefab;
