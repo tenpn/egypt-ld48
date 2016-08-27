@@ -36,6 +36,8 @@ class Match : MonoBehaviour {
 
     public void ApplyMods(Ball ball) {
         ball.ApplyMods(ActiveBallMods);
+
+        labels.AttachLabel(ball.SummariseMods(), ball.transform);
     }
 
     public bool RequestPause = false;
@@ -46,12 +48,15 @@ class Match : MonoBehaviour {
     Player[] players;
     float freeze = 0f;
 
-    [SerializeField] ParticleSystem goalCelebration;
+    FloatingLabels labels;
 
+    [SerializeField] ParticleSystem goalCelebration;
+    
     //////////////////////////////////////////////////
 
     void Awake() {
         players = FindObjectsOfType<Player>();
+        labels = FindObjectOfType<FloatingLabels>();
     }
 
     void Update() {
