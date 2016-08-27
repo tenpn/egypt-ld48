@@ -163,6 +163,10 @@ MonoBehaviour:
   rotateSpeed: 70
   cooldown: 1
   statusLight: {fileID: 212000011847695028}
+  minAngle: -15
+  maxAngle: 30
+  p1BallCol: {r: 0, g: 0, b: 1, a: 1}
+  p2BallCol: {r: 0, g: 1, b: 0, a: 1}
   p: 0
 --- !u!212 &212000010619680910
 SpriteRenderer:
