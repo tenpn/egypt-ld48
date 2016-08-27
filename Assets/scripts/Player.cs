@@ -23,6 +23,7 @@ class Player : MonoBehaviour {
     [SerializeField] Ball ballPrefab;
     [SerializeField] Transform emittPoint;
     [SerializeField] float fireForce;
+    [SerializeField] float fireForceRandomDelta = 50f;
     [SerializeField] float rotateSpeed;
     [SerializeField] float cooldown = 1f;
     [SerializeField] SpriteRenderer statusLight;
@@ -75,7 +76,9 @@ class Player : MonoBehaviour {
             newBall.transform.position = emittPoint.position;
             newBall.Color = p == PlayerIndex.P1 ? p1BallCol : p2BallCol;
             float flipper = transform.localScale.x;
-            newBall.phys.AddForce(transform.right * fireForce * flipper);
+            float force =
+                fireForce + Random.Range(-fireForceRandomDelta, fireForceRandomDelta);
+            newBall.phys.AddForce(transform.right * force * flipper);
             timeToFire = cooldown;
             shootPfx.Play();
         }
