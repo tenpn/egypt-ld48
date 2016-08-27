@@ -25,6 +25,7 @@ class Player : MonoBehaviour {
     [SerializeField] float fireForce;
     [SerializeField] float rotateSpeed;
     [SerializeField] float cooldown = 1f;
+    [SerializeField] SpriteRenderer statusLight;
 
     [SerializeField] PlayerIndex p;
 
@@ -43,7 +44,11 @@ class Player : MonoBehaviour {
 
         timeToFire -= Time.deltaTime;
 
-        if (HoldFire == false && timeToFire <= 0f && Input.GetButtonDown(button)) {
+        bool canFire = HoldFire == false && timeToFire <= 0f;
+
+        statusLight.color = canFire ? Color.green : Color.red;
+
+        if (canFire && Input.GetButtonDown(button)) {
             var newBall = Instantiate(ballPrefab);
             newBall.owner = this;
             newBall.transform.position = emittPoint.position;
