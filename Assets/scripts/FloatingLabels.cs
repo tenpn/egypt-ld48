@@ -34,7 +34,6 @@ class FloatingLabels : MonoBehaviour {
         var cam = Camera.main;
         Assert.IsNotNull(cam);
         var canvasSize = canvasRect.sizeDelta;
-        Debug.Log("canvas size:" + canvasSize);
 
         removalCache.Clear();
         
@@ -43,7 +42,6 @@ class FloatingLabels : MonoBehaviour {
                 removalCache.Add(track.Key);
             } else {
                 Vector2 trackViewportPos = cam.WorldToViewportPoint(track.Value.position);
-                Debug.Log(string.Format("{0} world to {1} viewport", track.Value.position, trackViewportPos));
                 var trackScreenPos = new Vector2(
                     (trackViewportPos.x*canvasSize.x)-(canvasSize.x*0.5f),
                     (trackViewportPos.y*canvasSize.y)-(canvasSize.y*0.5f));
