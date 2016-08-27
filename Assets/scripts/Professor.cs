@@ -36,7 +36,7 @@ class Professor : MonoBehaviour {
 
         string[] sequence = {
             "Oh??\n\nOh!\n",
-            "Welcome to my dig site!\n\nI am Professor Dare, and I have been investigating Ancient Egyptian sports!\n",
+            "Welcome to my dig site!\n\nI am Professor Ludum, and I have been investigating Ancient Egyptian sports!\n",
             "Would you like to play my latest discovery?\n\n",
             "You would??\n\nSplendid!\n",
             "We know very little about this game, but it involves two players trying to put balls into a goal.\n",
@@ -83,7 +83,6 @@ class Professor : MonoBehaviour {
     IEnumerator RulesScript() {
         activeMatch.RequestPause = true;
         activeMatch.HoldFire = true;
-        root.SetActive(true);
 
         var rulesIntro = new string[]{
             "Hang on a second...\n\n",
@@ -93,21 +92,51 @@ class Professor : MonoBehaviour {
             "\n...yes...\n",
             "\n\n...yes!",
             "Umm, it turns out we've been playing it a little bit wrong.\n",
-            "It says here that goals should be worth double points!\n",
+            "It says here that goals should be worth many more points!\n",
         };
 
         yield return StartCoroutine(PlayScript(rulesIntro));
 
-        activeMatch.ActiveBallMods.Add(new BallMod {PointsMul = 2f});
+        var newMod = new BallMod {PointsMul = 5f};
+        activeMatch.ActiveBallMods.Add(newMod);
 
         activeMatch.RequestPause = false;
         activeMatch.HoldFire = false;
 
         speechBox.text = "Try playing some more. I'll be back if I find anything else!\n";
-        HideInSeconds(5);
+
+        yield return StartCoroutine(WaitThenHide(5));
+
+        int goalsScored = activeMatch.TotalGoalsScored;
+        int targetGoals = goalsScored + 10;
+        while(activeMatch.TotalGoalsScored < targetGoals) {
+            yield return null;
+        }
+
+        activeMatch.RequestPause = true;
+        activeMatch.HoldFire = true;
+        var apology = new string[] {
+            "Ha...\n",
+            "Um!\n",
+            "\nWhoops!\n",
+            "Turns out, I was reading this wrong.\nIt's not an exact science, you know!",
+        };
+        yield return StartCoroutine(PlayScript(apology));
+
+        activeMatch.ActiveBallMods.Remove(newMod);
+        activeMatch.RequestPause = false;
+        activeMatch.HoldFire = false;
+
+        speechBox.text = "Back to the dig!\n\nI'll figure this out, or my name isn't Professor St John Hamilton She-Ra Ludum The Third!";
+
+        HideInSeconds(5f);
     }
 
     IEnumerator PlayScript(IList<string> script) {
+        if (root.activeSelf == false) {
+            root.SetActive(true);
+        }
+        
         foreach(var text in script) {
             speechBox.text = text;
 
