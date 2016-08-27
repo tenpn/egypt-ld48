@@ -30,6 +30,7 @@ class Player : MonoBehaviour {
     [SerializeField] float maxAngle = 30f;
     [SerializeField] Color p1BallCol = Color.blue;
     [SerializeField] Color p2BallCol = Color.green;
+    [SerializeField] ParticleSystem shootPfx;
 
     [SerializeField] PlayerIndex p;
 
@@ -76,6 +77,7 @@ class Player : MonoBehaviour {
             float flipper = transform.localScale.x;
             newBall.phys.AddForce(transform.right * fireForce * flipper);
             timeToFire = cooldown;
+            shootPfx.Play();
         }
     }
 }
