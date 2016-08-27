@@ -28,6 +28,8 @@ class Player : MonoBehaviour {
     [SerializeField] SpriteRenderer statusLight;
     [SerializeField] float minAngle = -20f;
     [SerializeField] float maxAngle = 30f;
+    [SerializeField] Color p1BallCol = Color.blue;
+    [SerializeField] Color p2BallCol = Color.green;
 
     [SerializeField] PlayerIndex p;
 
@@ -70,6 +72,7 @@ class Player : MonoBehaviour {
             var newBall = Instantiate(ballPrefab);
             newBall.owner = this;
             newBall.transform.position = emittPoint.position;
+            newBall.Color = p == PlayerIndex.P1 ? p1BallCol : p2BallCol;
             float flipper = transform.localScale.x;
             newBall.phys.AddForce(transform.right * fireForce * flipper);
             timeToFire = cooldown;
