@@ -271,6 +271,8 @@ MonoBehaviour:
     type: 2}
   emittPoint: {fileID: 744939423}
   fireForce: 400
+  rotateSpeed: 70
+  p: 0
 --- !u!4 &294353079
 Transform:
   m_ObjectHideFlags: 0
