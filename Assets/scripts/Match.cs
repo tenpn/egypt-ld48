@@ -11,6 +11,7 @@ class Match : MonoBehaviour {
         if (ScoreUpdated != null) {
             ScoreUpdated(scorer, scores[pIndex]);
         }
+        goalCelebration.Play();
     }
 
     public Player GetPlayer(Player.PlayerIndex p) {
@@ -28,6 +29,8 @@ class Match : MonoBehaviour {
 
     int[] scores = new int[2];
     Player[] players;
+
+    [SerializeField] ParticleSystem goalCelebration;
 
     //////////////////////////////////////////////////
 
