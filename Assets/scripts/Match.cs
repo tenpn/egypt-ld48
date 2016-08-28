@@ -63,6 +63,10 @@ class Match : MonoBehaviour {
                                             Physics2D.gravity.y * mod.Strength);
             break;
 
+        case MatchModType.AmmoBoost:
+            AmmoBoost *= mod.Strength;
+            break;
+            
         case MatchModType.Ball:
             Assert.IsNotNull(mod.Ball);
             activeBallMods.Add(mod.Ball);
@@ -91,9 +95,14 @@ class Match : MonoBehaviour {
         case MatchModType.MirrorSides:
             SwitchSides();
             break;
+            
         case MatchModType.Gravity:
             Physics2D.gravity = new Vector2(Physics2D.gravity.x,
                                             Physics2D.gravity.y / modToRemove.Strength);
+            break;
+
+        case MatchModType.AmmoBoost:
+            AmmoBoost /= modToRemove.Strength;
             break;
             
         case MatchModType.Ball:
@@ -134,6 +143,8 @@ class Match : MonoBehaviour {
     }
 
     public bool RequestPause = false;
+
+    public float AmmoBoost = 1f;
 
     //////////////////////////////////////////////////
 

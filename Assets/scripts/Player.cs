@@ -40,7 +40,7 @@ class Player : MonoBehaviour {
         transform.eulerAngles = currentAngles;
 
         ammo += Time.unscaledDeltaTime * rechargeRate;
-        ammo = Mathf.Min(maxAmmo, ammo);
+        ammo = Mathf.Min(MaxAmmo, ammo);
         cooldown -= Time.deltaTime;
 
         bool canFire = HoldFire == false && ammo >= 1f && cooldown <= 0f;
@@ -79,7 +79,7 @@ class Player : MonoBehaviour {
     }
 
     public float MaxAmmo {
-        get { return maxAmmo; }
+        get { return maxAmmo * activeMatch.AmmoBoost; }
     }
 
     //////////////////////////////////////////////////

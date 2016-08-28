@@ -3,6 +3,7 @@ public enum MatchModType {
     Gravity,
     Ball,
     AltBall,
+    AmmoBoost,
 }
 
 public class MatchMod {
