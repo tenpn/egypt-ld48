@@ -314,7 +314,9 @@ MonoBehaviour:
     m_RotationOrder: 0
   fireForceRandomDelta: 50
   rotateSpeed: 70
-  cooldown: 1
+  maxAmmo: 3
+  rechargeRate: 1.2
+  cooldownDuration: 0.1
   statusLight: {fileID: 212000011847695028}
   minAngle: -15
   maxAngle: 30

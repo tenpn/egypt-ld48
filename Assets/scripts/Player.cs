@@ -39,9 +39,11 @@ class Player : MonoBehaviour {
         }
         transform.eulerAngles = currentAngles;
 
-        timeToFire -= Time.deltaTime;
+        ammo += Time.unscaledDeltaTime * rechargeRate;
+        ammo = Mathf.Min(maxAmmo, ammo);
+        cooldown -= Time.deltaTime;
 
-        bool canFire = HoldFire == false && timeToFire <= 0f;
+        bool canFire = HoldFire == false && ammo >= 1f && cooldown <= 0f;
 
         statusLight.color = canFire ? Color.green : Color.red;
 
@@ -59,7 +61,8 @@ class Player : MonoBehaviour {
                 + newBall.AdditionalPower
                 + powerByWeight.Evaluate(newBall.phys.mass);
             newBall.phys.AddForce(transform.right * force * flipper);
-            timeToFire = cooldown;
+            cooldown = cooldownDuration;
+            ammo -= 1f;
             shootPfx.startColor = pColor;
             shootPfx.Play();
 
@@ -70,7 +73,15 @@ class Player : MonoBehaviour {
 
     // match starts with no firing
     public bool HoldFire = true;
-    
+
+    public float Ammo {
+        get { return ammo; }
+    }
+
+    public float MaxAmmo {
+        get { return maxAmmo; }
+    }
+
     //////////////////////////////////////////////////
 
     [SerializeField] Ball ballPrefab;
@@ -78,7 +89,9 @@ class Player : MonoBehaviour {
     [SerializeField] AnimationCurve powerByWeight;
     [SerializeField] float fireForceRandomDelta = 50f;
     [SerializeField] float rotateSpeed;
-    [SerializeField] float cooldown = 1f;
+    [SerializeField] float maxAmmo = 4f;
+    [SerializeField] float rechargeRate = 2f;
+    [SerializeField] float cooldownDuration = 0.2f;
     [SerializeField] SpriteRenderer statusLight;
     [SerializeField] float minAngle = -20f;
     [SerializeField] float maxAngle = 30f;
@@ -91,7 +104,8 @@ class Player : MonoBehaviour {
 
     [SerializeField] PlayerIndex p;
 
-    float timeToFire = 0f;
+    float cooldown = 0f;
+    float ammo = 1f;
     Match activeMatch;
 
     //////////////////////////////////////////////////
