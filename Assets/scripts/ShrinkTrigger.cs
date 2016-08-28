@@ -12,22 +12,24 @@ class ShrinkTrigger : MonoBehaviour {
         public float LifetimeInTrigger;
     }
 
-    Dictionary<Collider2D, ShrinkTarget> targets = new Dictionary<Collider2D, ShrinkTarget>();
+    IList<int> removeCache = new List<int>();
+    Dictionary<int, ShrinkTarget> targets = new Dictionary<int, ShrinkTarget>();
 
     [SerializeField] AnimationCurve sizeOverTime;
 
     //////////////////////////////////////////////////
 
     void OnTriggerEnter2D(Collider2D other) {
-        if (targets.ContainsKey(other)) {
+        int otherID = other.GetInstanceID();
+        if (targets.ContainsKey(otherID)) {
             // uh oh this shouldn't happen but try to recover
-            targets[other].LifetimeInTrigger = 0f;
+            targets[otherID].LifetimeInTrigger = 0f;
         } else {
             var circle = other as CircleCollider2D;
             if (circle == null) {
                 return;
             }
-            targets[other] = new ShrinkTarget {
+            targets[otherID] = new ShrinkTarget {
                 InitRadius = circle.radius,
                 Collider = circle,
             };
@@ -35,18 +37,31 @@ class ShrinkTrigger : MonoBehaviour {
     }
 
     void Update() {
-        foreach(var target in targets.Values) {
+        removeCache.Clear();
+        foreach(var colliderTarget in targets) {
+            var target = colliderTarget.Value;
+            
+            if (target.Collider == null) {
+                removeCache.Add(colliderTarget.Key);
+                continue;
+            }
+            
             target.LifetimeInTrigger += Time.deltaTime;
             target.Collider.radius =
                 target.InitRadius * sizeOverTime.Evaluate(target.LifetimeInTrigger);
         }
+
+        foreach(var removeID in removeCache) {
+            targets.Remove(removeID);
+        }
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        if (targets.ContainsKey(other)) {
-            var target = targets[other];
+        int otherID = other.GetInstanceID();
+        if (targets.ContainsKey(otherID)) {
+            var target = targets[otherID];
             target.Collider.radius = target.InitRadius;
-            targets.Remove(other);
+            targets.Remove(otherID);
         }
     }
 }
