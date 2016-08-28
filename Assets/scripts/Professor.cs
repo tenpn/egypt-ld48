@@ -158,10 +158,11 @@ class Professor : MonoBehaviour {
         yield return new WaitForSecondsRealtime(4);
         var oldGrav = Physics2D.gravity;
         Physics2D.gravity = new Vector2(oldGrav.x, -1f*oldGrav.y*0.5f);
-        yield return new WaitForSecondsRealtime(4);
+        yield return new WaitForSecondsRealtime(5);
         speechBox.text = "\n...I guess not!\n";
+        yield return new WaitForSecondsRealtime(2);
         Physics2D.gravity = oldGrav;
-        yield return new WaitForSecondsRealtime(4);
+        yield return new WaitForSecondsRealtime(2);
         root.SetActive(false);
 
         yield return new WaitForSecondsRealtime(20);
