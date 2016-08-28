@@ -166,9 +166,83 @@ class Professor : MonoBehaviour {
             "\n...I guess not!\n");
         yield return StartCoroutine(flipGravity);
 
-        yield return new WaitForSecondsRealtime(30);
+        yield return new WaitForSecondsRealtime(10);
         root.SetActive(true);
-        speechBox.text = "Thank you for playing!\nThis is a work-in-progress LD48 game.\nSend me feedback!";
+        speechBox.text = "Thank you for playing so far!\nThis is a work-in-progress LD48 game.\nSend me feedback!";
+
+        yield return StartCoroutine(WaitThenHide(5));
+
+        StartCoroutine(EndlessRules());
+    }
+
+    IEnumerator EndlessRules() {
+        while(true) {
+            float interval = Random.Range(7f, 13f);
+            Debug.Log("delay " + interval);
+            yield return new WaitForSecondsRealtime(interval);
+
+            var endChoice = Random.value;
+            EndCondition endCond = endChoice < 0.4 ? null
+                : ForDuration(Random.Range(7f, 14f));
+            Debug.Log("end choice:" + endCond);
+                
+            var choice = Random.value;
+            Debug.Log("choice: " + choice);
+
+            string intro, outro;
+            MatchMod mod;
+
+            if (choice < 0.2) {
+                mod = new MatchMod { Type = MatchModType.MirrorSides };
+                intro = "Ah it turns out, you should have started on the other sides!\n";
+                outro = "The evidence is conflicting! Let's swap sides again.\n";
+            } else if (choice < 0.25) {
+                mod = new MatchMod {
+                    Type = MatchModType.Gravity,
+                    Strength = -0.5f,
+                };
+                intro = "A metareview has found that balls indeed should go up!!\n";
+                outro = "Hmm that's as useless as last time...\n";
+                endCond = ForDuration(5f);
+            } else if (choice < 0.5) {
+                mod = new MatchMod {
+                    Type = MatchModType.Ball,
+                    Ball = new BallMod { PointsMul = 3f },
+                };
+                intro = "A new source that agrees goals should be worth more!\n";
+                outro = "That goal score source was... discredited.\n";
+            } else if (choice < 0.65) {
+                mod = new MatchMod {
+                    Type = MatchModType.Ball,
+                    Ball = new BallMod { PointsMul = 0.5f },
+                };
+                intro = "Cross-discipline scholars think our goals are worth too much.\n";
+                outro = "Oh turns out those scholars were talking metaphorically.\n";
+            } else if (choice < 0.85) {
+                mod = new MatchMod {
+                    Type = MatchModType.Ball,
+                    Ball = new BallMod {
+                        MassMul = 1.5f,
+                        PowerAdd = 500f,
+                    },
+                };
+                intro = "My research assistant found references to heavier balls!\n";
+                outro = "My assistant... was talking about something else.\n";
+            } else {
+                mod = new MatchMod {
+                    Type = MatchModType.Ball,
+                    Ball = new BallMod {
+                        MassMul = 0.7f,
+                        PowerAdd = -200f,
+                    },
+                };
+                intro = "I don't think the Egyptians would have had the tech to make balls this heavy.\n\nLet's try going lighter.";
+                outro = "But I suppose if they had alien help, they could have made those heavier balls...\n";
+            }
+
+            var modder = ApplyMod(mod, intro, endCond, outro);
+            yield return StartCoroutine(modder);
+        }
     }
 
     class EndCondition {
