@@ -220,6 +220,25 @@ class Professor : MonoBehaviour {
         new Rule {
             CreateMod = () => new MatchMod {
                 Type = MatchModType.Ball,
+                Ball = new BallMod { PowerAdd = 200f },
+            },
+            Weight = 0.5f,
+            Intro = "Slave graffiti shows balls moving much faster.\n\nLet's speed it up!",
+            Outro = "Turns out I sneezed and assumed it was graffiti.\n\nSorry.",
+        },
+        new Rule {
+            CreateMod = () => new MatchMod {
+                Type = MatchModType.Ball,
+                Ball = new BallMod { PowerAdd = -100f },
+            },
+            Intro = "I found a tablet that suggests fast throwing was illegal!\n",
+            Outro = "I dropped that tablet...\n\nJust forget I mentioned it.\n",
+            SelectionCount = 2,
+            Weight = 0.3f,
+        },
+        new Rule {
+            CreateMod = () => new MatchMod {
+                Type = MatchModType.Ball,
                 Ball = new BallMod { PointsMul = 3f },
             },
             Weight = 0.6f,
