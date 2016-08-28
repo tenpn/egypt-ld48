@@ -13,7 +13,7 @@ class PlayerInput : MonoBehaviour {
         p = GetComponent<Player>();
     }
 
-    void FixedUpdate() {
+    void Update() {
         var axis = p.Index == Player.PlayerIndex.P1 ? "P1Aim" : "P2Aim";
         var button = p.Index == Player.PlayerIndex.P1 ? "P1Fire" : "P2Fire";
 
