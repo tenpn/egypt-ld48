@@ -138,7 +138,7 @@ class Professor : MonoBehaviour {
         activeMatch.RequestPause = false;
         activeMatch.HoldFire = false;
 
-        speechBox.text = "Back to the dig!\n\nI'll figure this out, or my name isn't Professor Leslie Hamilton She-Ra Ludum The Third!";
+        speechBox.text = "Back to the dig!\n\nI'll figure this out, or my name isn't Professor Leslie Hamilton Thundercats Ludum The Third!";
 
         yield return StartCoroutine(WaitThenHide(5));
 
