@@ -43,6 +43,7 @@ class Professor : MonoBehaviour {
             "Welcome to my dig site!\n\nI am Professor Ludum, and I have been investigating Ancient Egyptian sports!\n",
             "Would you like to play my latest discovery?\n\n",
             "You would??\n\nSplendid!\n",
+            "You are standing in a recently-uncovered arena for the sport of \"Dare\"",
             "We know very little about this game, but it involves two players trying to put balls into a goal.\n",
             "Player 1 aims with W/S and shoots with left shift.\n\nPlayer 2 aims with the up/down cursor keys and shoots with M.\n",
             "(It's best with two players, but you can tap T to play against the computer)\n",
@@ -201,7 +202,7 @@ class Professor : MonoBehaviour {
             CreateMod = () => new MatchMod { Type = MatchModType.MirrorSides },
             Intro = "Ah it turns out, you should have started on the other sides!\n",
             Outro = "The evidence is conflicting! Let's swap sides again.\n",
-            Weight = 0.2f,
+            Weight = 0.3f,
             SelectionCount = 3,
             SelectionSeparate = 6,
         },
@@ -211,7 +212,7 @@ class Professor : MonoBehaviour {
                 Strength = -0.5f,
             },
             IsAlwaysEnded = true,
-            Intro = "A metareview has found that balls indeed should go up!!\n",
+            Intro = "A meta-analysis has found that balls indeed should go up!!\n",
             Outro = "Hmm that's as useless as last time...\n",
             Weight = 0.2f,
             SelectionCount = 4,
@@ -307,7 +308,7 @@ class Professor : MonoBehaviour {
         return chosenRule;
     }
 
-    int stepsUntilAlts = 5;
+    int stepsUntilAlts = 3;
     float altChance = 0.5f;
     bool isAltSpeechDone = false;
     
