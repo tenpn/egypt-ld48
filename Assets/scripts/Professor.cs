@@ -187,9 +187,13 @@ class Professor : MonoBehaviour {
             get { return SelectionCount <= 0; }
         }
         // minimum how many rounds between selections
-        public int SelectionSeparate = 3;
+        public int SelectionSeparate = 2;
         
         public Func<MatchMod> CreateMod;
+
+        public override string ToString() {
+            return Weight + " " + Intro;
+        }
     }
 
     Rule[] rules = new [] {
@@ -198,6 +202,7 @@ class Professor : MonoBehaviour {
             Intro = "Ah it turns out, you should have started on the other sides!\n",
             Outro = "The evidence is conflicting! Let's swap sides again.\n",
             Weight = 0.2f,
+            SelectionCount = 3,
             SelectionSeparate = 6,
         },
         new Rule {
@@ -209,6 +214,7 @@ class Professor : MonoBehaviour {
             Intro = "A metareview has found that balls indeed should go up!!\n",
             Outro = "Hmm that's as useless as last time...\n",
             Weight = 0.2f,
+            SelectionCount = 4,
             SelectionSeparate = 10,
         },
         new Rule {
@@ -227,6 +233,7 @@ class Professor : MonoBehaviour {
             },
             Intro = "Cross-discipline scholars think our goals are worth too much.\n",
             Outro = "Oh turns out those scholars were talking metaphorically.\n",
+            SelectionCount = 2,
             Weight = 0.4f,
         },
         new Rule {
@@ -245,13 +252,46 @@ class Professor : MonoBehaviour {
             },
             Intro = "I don't think the Egyptians would have had the tech to make balls this heavy.\n\nLet's try going lighter.",
             Outro = "But I suppose if they had alien help, they could have made those heavier balls...\n",
+            SelectionCount = 2,
             Weight = 0.3f,
         },
     };
 
+    Rule SelectRule() {
+        float totalWeight = 0f;
+        foreach(var rule in rules) {
+            if (rule.IsSelectable) {
+                totalWeight += rule.Weight;
+            }
+        }
+
+        var choice = Random.value * totalWeight;
+        Debug.Log("choice: " + choice + "/" + totalWeight);
+        Rule chosenRule = null;
+        foreach(var rule in rules) {
+            if (rule.IsSelectable) {
+                choice -= rule.Weight;
+                if (choice <= 0f) {
+                    chosenRule = rule;
+                    break;
+                }
+            }
+        }
+
+        foreach(var rule in rules) {
+            --rule.SelectionCount;
+        }
+
+        if (chosenRule != null) {
+            chosenRule.SelectionCount = chosenRule.SelectionSeparate;
+        }
+        return chosenRule;
+    }
+
     IEnumerator EndlessRules() {
+
         while(true) {
-            float interval = Random.Range(7f, 13f);
+            float interval = Random.Range(5f, 8f);
             Debug.Log("delay " + interval);
             yield return new WaitForSecondsRealtime(interval);
 
@@ -262,36 +302,23 @@ class Professor : MonoBehaviour {
                 }
             }
 
-            var choice = Random.value * totalWeight;
-            Debug.Log("choice: " + choice);
-            Rule chosenRule = null;
-            foreach(var rule in rules) {
-                if (rule.IsSelectable) {
-                    totalWeight -= rule.Weight;
-                    if (totalWeight <= 0f) {
-                        chosenRule = rule;
-                        break;
-                    }
-                }
-            }
+            Rule chosenRule = SelectRule();
 
-            foreach(var rule in rules) {
-                --rule.SelectionCount;
-            }
-            
-            chosenRule.SelectionCount = chosenRule.SelectionSeparate;
+            if (chosenRule != null) {
+                chosenRule.SelectionCount = chosenRule.SelectionSeparate;
 
-            var endChoice = Random.value;
-            EndCondition endCond
-                = endChoice < 0.4 && chosenRule.IsAlwaysEnded == false ? null
-                : ForDuration(Random.Range(7f, 14f));
-            Debug.Log("end choice:" + endCond);
+                var endChoice = Random.value;
+                EndCondition endCond
+                    = endChoice < 0.4 && chosenRule.IsAlwaysEnded == false ? null
+                    : ForDuration(Random.Range(7f, 14f));
+                Debug.Log("end choice:" + endCond);
                 
-            var modder = ApplyMod(chosenRule.CreateMod(),
-                                  chosenRule.Intro,
-                                  endCond,
-                                  chosenRule.Outro);
-            yield return StartCoroutine(modder);
+                var modder = ApplyMod(chosenRule.CreateMod(),
+                                      chosenRule.Intro,
+                                      endCond,
+                                      chosenRule.Outro);
+                yield return StartCoroutine(modder);
+            }
         }
     }
 
@@ -330,8 +357,8 @@ class Professor : MonoBehaviour {
                          string outro = null) {
         
         // intro text has to be read
-        yield return StartCoroutine(ShowTextFor(intro, 5f));
         activeMatch.AddMod(mod);
+        yield return StartCoroutine(ShowTextFor(intro, 5f));
 
         if (ender == null) {
             yield break;
