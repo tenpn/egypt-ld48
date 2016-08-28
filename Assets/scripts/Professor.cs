@@ -46,7 +46,7 @@ class Professor : MonoBehaviour {
             "Play a few rounds and let me know how you get on!\n",
         };
 
-        yield return StartCoroutine(PlayScript(sequence));
+        yield return StartCoroutine(PlayScript(sequence, 1f));
 
         continueHelper.SetActive(false);
         activeMatch.HoldFire = false;
@@ -99,11 +99,11 @@ class Professor : MonoBehaviour {
             "...yes...\n",
             "\n...yes...\n",
             "\n\n...yes!",
-            "Umm, it turns out we've been playing it a little bit wrong.\n",
-            "It says here that goals should be worth many more points!\n",
+            "The tablet says we've been playing it a little bit wrong.\n",
+            "It seems the goals should be worth many more points!\n",
         };
 
-        yield return StartCoroutine(PlayScript(rulesIntro));
+        yield return StartCoroutine(PlayScript(rulesIntro, 1f));
 
         var newMod = new BallMod {PointsMul = 10f};
         activeMatch.ActiveBallMods.Add(newMod);
@@ -125,7 +125,7 @@ class Professor : MonoBehaviour {
             "\nWhoops!\n",
             "Turns out, I was reading this wrong.\nIt's not an exact science, you know!",
         };
-        yield return StartCoroutine(PlayScript(apology));
+        yield return StartCoroutine(PlayScript(apology, 1f));
 
         activeMatch.ActiveBallMods.Remove(newMod);
         activeMatch.RequestPause = false;
@@ -145,22 +145,33 @@ class Professor : MonoBehaviour {
         var massModScript = new string[] {
             "A beautiful tablet!\n\nAnd it says the balls should be heavier!",
         };
+        yield return StartCoroutine(PlayTimedScript(massModScript, 5f));
+        root.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(20);
+        
         root.SetActive(true);
-        foreach(var line in massModScript) {
-            speechBox.text = line;
-            var waiter = new WaitForSecondsRealtime(5);
-            yield return waiter;
-        }
+        speechBox.text = "Hmm wrong again.\n\nMaybe the balls are supposed... to go up?";
+        yield return new WaitForSecondsRealtime(4);
+        var oldGrav = Physics2D.gravity;
+        Physics2D.gravity = new Vector2(oldGrav.x, -1f*oldGrav.y*0.5f);
+        yield return new WaitForSecondsRealtime(3);
+        speechBox.text = "\n...I guess not!\n";
+        Physics2D.gravity = oldGrav;
+        yield return new WaitForSecondsRealtime(5);
         root.SetActive(false);
     }
 
-    IEnumerator PlayScript(IList<string> script) {
-        if (root.activeSelf == false) {
-            root.SetActive(true);
-        }
+    IEnumerator PlayScript(IList<string> script, float initDelay) {
+        root.SetActive(true);
         
         foreach(var text in script) {
             speechBox.text = text;
+
+            if (initDelay > 0) {
+                yield return new WaitForSecondsRealtime(initDelay);
+                initDelay = 0f;
+            }
 
             while(Input.GetButtonDown("P1Fire") == false
                   && Input.GetButtonDown("P2Fire") == false) {
@@ -169,5 +180,14 @@ class Professor : MonoBehaviour {
             sfx.Play();
             yield return null;
         }        
+    }
+
+    IEnumerator PlayTimedScript(IList<string> script, float delay) {
+        root.SetActive(true);
+        
+        foreach(var line in script) {
+            speechBox.text = line;
+            yield return new WaitForSecondsRealtime(delay);
+        }
     }
 }
