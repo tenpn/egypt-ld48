@@ -38,7 +38,7 @@ class HitSfx : MonoBehaviour {
         
         if (targetVol > 0f) {
             sfx.pitch = 1f + Random.Range(-pitchShift, pitchShift);
-            var clip = isBig ? bigHit
+            var clip = isBigHit ? bigHit
                 : isBallOnBall ? ballHit
                 : smallHit;
             sfx.PlayOneShot(clip, targetVol);
