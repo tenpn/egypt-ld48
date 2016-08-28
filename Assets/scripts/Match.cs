@@ -52,9 +52,15 @@ class Match : MonoBehaviour {
         Assert.IsNotNull(mod);
         Assert.IsFalse(activeMods.Contains(mod), "mod " + mod + " already active");
         activeMods.Add(mod);
+        
         switch(mod.Type) {
         case MatchModType.MirrorSides:
             SwitchSides();
+            break;
+
+        case MatchModType.Gravity:
+            Physics2D.gravity = new Vector2(Physics2D.gravity.x,
+                                            Physics2D.gravity.y * mod.Strength);
             break;
         }
     }
@@ -65,8 +71,14 @@ class Match : MonoBehaviour {
                       "mod " + modToRemove + " is not active");
         activeMods.Remove(modToRemove);
         switch(modToRemove.Type) {
+            
         case MatchModType.MirrorSides:
             SwitchSides();
+            break;
+        case MatchModType.Gravity:
+            Physics2D.gravity = new Vector2(Physics2D.gravity.x,
+                                            Physics2D.gravity.y / modToRemove.Strength);
+            Debug.Log("restored g: " + Physics2D.gravity.y);
             break;
         }
     }

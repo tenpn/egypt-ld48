@@ -156,12 +156,15 @@ class Professor : MonoBehaviour {
         speechBox.text =
             "Here's a tablet that suggests the balls are supposed to go... up?\n";
         yield return new WaitForSecondsRealtime(4);
-        var oldGrav = Physics2D.gravity;
-        Physics2D.gravity = new Vector2(oldGrav.x, -1f*oldGrav.y*0.5f);
+        var flipGravity = new MatchMod {
+            Type = MatchModType.Gravity,
+            Strength = -0.5f,
+        };
+        activeMatch.AddMod(flipGravity);
         yield return new WaitForSecondsRealtime(5);
         speechBox.text = "\n...I guess not!\n";
         yield return new WaitForSecondsRealtime(2);
-        Physics2D.gravity = oldGrav;
+        activeMatch.RemoveMod(flipGravity);
         yield return new WaitForSecondsRealtime(2);
         root.SetActive(false);
 
