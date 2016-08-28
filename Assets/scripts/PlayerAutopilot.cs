@@ -14,14 +14,26 @@ class PlayerAutopilot : MonoBehaviour {
     float fireCountdown = 0f;
     float twistCountdown = 0f;
     float lastAim = 0f;
+    PlayerInput input = null;
 
     //////////////////////////////////////////////////
 
     void Awake() {
         p = GetComponent<Player>();
+        input = GetComponent<PlayerInput>();
+        input.enabled = true;
     }
 
-    void FixedUpdate() {
+    void Update() {
+
+        if (Input.GetKeyDown(KeyCode.T)) {
+            input.enabled = !input.enabled;
+        }
+
+        if (input.enabled) {
+            // player is controlling!
+            return;
+        }
 
         fireCountdown -= Time.deltaTime;
         twistCountdown -= Time.deltaTime;

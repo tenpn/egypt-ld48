@@ -42,6 +42,7 @@ class Professor : MonoBehaviour {
             "You would??\n\nSplendid!\n",
             "We know very little about this game, but it involves two players trying to put balls into a goal.\n",
             "Player 1 aims with W/S and shoots with left shift.\n\nPlayer 2 aims with the up/down cursor keys and shoots with M.\n",
+            "(It's best with two players, but you can tap T to play against the computer)\n",
             "I'm... er... not really sure how you win.\n\nBut I'll try to find out while you play!\n",
             "Play a few rounds and let me know how you get on!\n",
         };
