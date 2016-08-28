@@ -104,7 +104,7 @@ class Professor : MonoBehaviour {
 
         yield return StartCoroutine(PlayScript(rulesIntro));
 
-        var newMod = new BallMod {PointsMul = 5f};
+        var newMod = new BallMod {PointsMul = 10f};
         activeMatch.ActiveBallMods.Add(newMod);
 
         activeMatch.RequestPause = false;
@@ -114,7 +114,7 @@ class Professor : MonoBehaviour {
 
         yield return StartCoroutine(WaitThenHide(5));
 
-        yield return StartCoroutine(WaitForGoals(10));
+        yield return StartCoroutine(WaitForGoals(100));
 
         activeMatch.RequestPause = true;
         activeMatch.HoldFire = true;
@@ -138,7 +138,7 @@ class Professor : MonoBehaviour {
 
         activeMatch.ActiveBallMods.Add(new BallMod {
                 MassMul = 2.5f,
-                PowerAdd = 350f,
+                PowerAdd = 800f,
             });
 
         var massModScript = new string[] {
