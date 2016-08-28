@@ -132,7 +132,7 @@ class Professor : MonoBehaviour {
         activeMatch.RequestPause = false;
         activeMatch.HoldFire = false;
 
-        speechBox.text = "Back to the dig!\n\nI'll figure this out, or my name isn't Professor St John Hamilton She-Ra Ludum The Third!";
+        speechBox.text = "Back to the dig!\n\nI'll figure this out, or my name isn't Professor Leslie Hamilton She-Ra Ludum The Third!";
 
         yield return StartCoroutine(WaitThenHide(5));
         root.SetActive(false);
@@ -153,7 +153,8 @@ class Professor : MonoBehaviour {
         yield return new WaitForSecondsRealtime(20);
         
         root.SetActive(true);
-        speechBox.text = "Hmm wrong again.\n\nMaybe the balls are supposed... to go up?";
+        speechBox.text =
+            "Here's a tablet that suggests the balls are supposed to go... up?\n";
         yield return new WaitForSecondsRealtime(4);
         var oldGrav = Physics2D.gravity;
         Physics2D.gravity = new Vector2(oldGrav.x, -1f*oldGrav.y*0.5f);
@@ -163,7 +164,7 @@ class Professor : MonoBehaviour {
         yield return new WaitForSecondsRealtime(4);
         root.SetActive(false);
 
-        yield return new WaitForSecondsRealtime(10);
+        yield return new WaitForSecondsRealtime(20);
         root.SetActive(true);
         speechBox.text = "Thank you for playing!\nThis is a work-in-progress LD48 game.\nSend me feedback!";
     }
