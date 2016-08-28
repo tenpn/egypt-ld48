@@ -32,6 +32,9 @@ class Player : MonoBehaviour {
     [SerializeField] Color p1BallCol = Color.blue;
     [SerializeField] Color p2BallCol = Color.green;
     [SerializeField] ParticleSystem shootPfx;
+    [SerializeField] AudioSource sfx;
+    [SerializeField] AudioClip shootClip;
+    [SerializeField] float shootPitchShift = 0.2f;
 
     [SerializeField] PlayerIndex p;
 
@@ -90,6 +93,9 @@ class Player : MonoBehaviour {
             newBall.phys.AddForce(transform.right * force * flipper);
             timeToFire = cooldown;
             shootPfx.Play();
+
+            sfx.pitch = 1f + Random.Range(-shootPitchShift, shootPitchShift);
+            sfx.PlayOneShot(shootClip);
         }
     }
 }
