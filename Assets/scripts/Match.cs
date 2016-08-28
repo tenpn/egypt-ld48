@@ -46,8 +46,6 @@ class Match : MonoBehaviour {
         }
     }
 
-    public IList<BallMod> ActiveBallMods = new List<BallMod>();
-
     public void AddMod(MatchMod mod) {
         Assert.IsNotNull(mod);
         Assert.IsFalse(activeMods.Contains(mod), "mod " + mod + " already active");
@@ -61,6 +59,11 @@ class Match : MonoBehaviour {
         case MatchModType.Gravity:
             Physics2D.gravity = new Vector2(Physics2D.gravity.x,
                                             Physics2D.gravity.y * mod.Strength);
+            break;
+
+        case MatchModType.Ball:
+            Assert.IsNotNull(mod.Ball);
+            activeBallMods.Add(mod.Ball);
             break;
         }
     }
@@ -80,11 +83,15 @@ class Match : MonoBehaviour {
                                             Physics2D.gravity.y / modToRemove.Strength);
             Debug.Log("restored g: " + Physics2D.gravity.y);
             break;
+        case MatchModType.Ball:
+            Assert.IsNotNull(modToRemove.Ball);
+            activeBallMods.Remove(modToRemove.Ball);
+            break;
         }
     }
 
     public void ApplyMods(Ball ball) {
-        ball.ApplyMods(ActiveBallMods);
+        ball.ApplyMods(activeBallMods);
 
         labels.AttachLabel(ball.SummariseMods(), ball.transform);
 
@@ -107,6 +114,7 @@ class Match : MonoBehaviour {
     bool isInActiveCullMode = false;
 
     IList<MatchMod> activeMods = new List<MatchMod>();
+    IList<BallMod> activeBallMods = new List<BallMod>();
 
     [SerializeField] ParticleSystem goalCelebration;
     [SerializeField] AudioClip goalSfx;

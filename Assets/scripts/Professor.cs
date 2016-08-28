@@ -106,8 +106,11 @@ class Professor : MonoBehaviour {
 
         yield return StartCoroutine(PlayScript(rulesIntro, 1f));
 
-        var newMod = new BallMod {PointsMul = 10f};
-        activeMatch.ActiveBallMods.Add(newMod);
+        var pointsMod = new MatchMod {
+            Type = MatchModType.Ball,
+            Ball = new BallMod {PointsMul = 10f},
+        };
+        activeMatch.AddMod(pointsMod);
 
         activeMatch.RequestPause = false;
         activeMatch.HoldFire = false;
@@ -128,7 +131,7 @@ class Professor : MonoBehaviour {
         };
         yield return StartCoroutine(PlayScript(apology, 1f));
 
-        activeMatch.ActiveBallMods.Remove(newMod);
+        activeMatch.RemoveMod(pointsMod);
         activeMatch.RequestPause = false;
         activeMatch.HoldFire = false;
 
@@ -139,10 +142,14 @@ class Professor : MonoBehaviour {
 
         yield return new WaitForSecondsRealtime(7);
 
-        activeMatch.ActiveBallMods.Add(new BallMod {
+        var heavyBalls = new MatchMod {
+            Type = MatchModType.Ball,
+            Ball = new BallMod {
                 MassMul = 2.5f,
                 PowerAdd = 800f,
-            });
+            },
+        };
+        activeMatch.AddMod(heavyBalls);
 
         var massModScript = new string[] {
             "A beautiful tablet!\n\nAnd it says the balls should be heavier!",
