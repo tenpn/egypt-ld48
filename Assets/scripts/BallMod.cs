@@ -9,7 +9,7 @@ public class BallMod {
 }
 
 public static class BallModExtensions {
-    public static string SummariseMods(this IEnumerable<BallMod> mods) {
+    public static string SummariseMods(this IEnumerable<BallMod> mods, bool isForBall) {
         var res = "";
         if (mods.Points() != 1f) {
             res += "x" + mods.Points() + "pts";
@@ -18,7 +18,15 @@ public static class BallModExtensions {
             if (res != "") {
                 res += "\n";
             }
-            res += "x" + mods.MassMul() + "kg";
+            res += mods.MassMul() + "kg";
+        }
+        float power = mods.AdditionalPower();
+        if (isForBall == false && power != 0f) {
+            if (res != "") {
+                res += "\n";
+            }
+            var prefix = power < 0 ? "" : "+";
+            res += prefix + mods.AdditionalPower() + "mph";
         }
         return res;
     }

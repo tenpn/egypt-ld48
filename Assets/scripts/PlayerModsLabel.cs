@@ -20,6 +20,6 @@ class PlayerModsLabel : MonoBehaviour {
     }
 
     void OnModsChanged(IEnumerable<BallMod> mods) {
-        label.text = mods.SummariseMods();
+        label.text = mods.SummariseMods(false);
     }
 }

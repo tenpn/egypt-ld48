@@ -28,7 +28,7 @@ class Ball : MonoBehaviour {
     }
 
     public string SummariseMods() {
-        return mods.SummariseMods();
+        return mods.SummariseMods(true);
     }
 
     //////////////////////////////////////////////////
