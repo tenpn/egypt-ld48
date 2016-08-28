@@ -46,6 +46,8 @@ class Match : MonoBehaviour {
         }
     }
 
+    public event Action<IEnumerable<BallMod>> ModsChanged;
+
     public void AddMod(MatchMod mod) {
         Assert.IsNotNull(mod);
         Assert.IsFalse(activeMods.Contains(mod), "mod " + mod + " already active");
@@ -65,6 +67,10 @@ class Match : MonoBehaviour {
             Assert.IsNotNull(mod.Ball);
             activeBallMods.Add(mod.Ball);
             break;
+        }
+
+        if (ModsChanged != null) {
+            ModsChanged(activeBallMods);
         }
     }
 
@@ -86,6 +92,10 @@ class Match : MonoBehaviour {
             Assert.IsNotNull(modToRemove.Ball);
             activeBallMods.Remove(modToRemove.Ball);
             break;
+        }
+
+        if (ModsChanged != null) {
+            ModsChanged(activeBallMods);
         }
     }
 
