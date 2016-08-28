@@ -6625,14 +6625,14 @@ MonoBehaviour:
       inSlope: 0
       outSlope: 0
       tangentMode: 0
-    - time: 2.2
+    - time: 0.95000005
       value: 1
       inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - time: 7.3
+      outSlope: -0.39024392
+      tangentMode: 21
+    - time: 3
       value: 0.2
-      inSlope: -0.15686274
+      inSlope: -0.39024392
       outSlope: 0
       tangentMode: 5
     m_PreInfinity: 2

@@ -45,8 +45,11 @@ class ShrinkTrigger : MonoBehaviour {
                 removeCache.Add(colliderTarget.Key);
                 continue;
             }
-            
-            target.LifetimeInTrigger += Time.deltaTime;
+
+            // single balls don't shrink
+            if (targets.Count > 1) {
+                target.LifetimeInTrigger += Time.deltaTime;
+            }
             target.Collider.radius =
                 target.InitRadius * sizeOverTime.Evaluate(target.LifetimeInTrigger);
         }
