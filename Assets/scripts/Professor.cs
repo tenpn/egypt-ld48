@@ -138,46 +138,105 @@ class Professor : MonoBehaviour {
         speechBox.text = "Back to the dig!\n\nI'll figure this out, or my name isn't Professor Leslie Hamilton She-Ra Ludum The Third!";
 
         yield return StartCoroutine(WaitThenHide(5));
-        root.SetActive(false);
 
         yield return new WaitForSecondsRealtime(7);
 
-        var heavyBalls = new MatchMod {
-            Type = MatchModType.Ball,
-            Ball = new BallMod {
-                MassMul = 2.5f,
-                PowerAdd = 800f,
+        var heavyBalls = ApplyMod(
+            new MatchMod {
+                Type = MatchModType.Ball,
+                Ball = new BallMod {
+                    MassMul = 2.5f,
+                    PowerAdd = 800f,
+                },
             },
-        };
-        activeMatch.AddMod(heavyBalls);
-
-        var massModScript = new string[] {
-            "A beautiful tablet!\n\nAnd it says the balls should be heavier!",
-        };
-        yield return StartCoroutine(PlayTimedScript(massModScript, 5f));
-        root.SetActive(false);
-
-        yield return new WaitForSecondsRealtime(20);
+            "A beautiful tablet!\n\nAnd it says the balls should be heavier!");
+        yield return StartCoroutine(heavyBalls);
+                                
+        yield return new WaitForSecondsRealtime(25);
         
-        root.SetActive(true);
-        speechBox.text =
-            "Here's a tablet that suggests the balls are supposed to go... up?\n";
-        yield return new WaitForSecondsRealtime(4);
-        var flipGravity = new MatchMod {
-            Type = MatchModType.Gravity,
-            Strength = -0.5f,
-        };
-        activeMatch.AddMod(flipGravity);
-        yield return new WaitForSecondsRealtime(5);
-        speechBox.text = "\n...I guess not!\n";
-        yield return new WaitForSecondsRealtime(2);
-        activeMatch.RemoveMod(flipGravity);
-        yield return new WaitForSecondsRealtime(2);
-        root.SetActive(false);
+        var flipGravity = ApplyMod(
+            new MatchMod {
+                Type = MatchModType.Gravity,
+                Strength = -0.5f,
+            },
+            "Here's a tablet that suggests the balls are supposed to go... up?\n",
+            ForDuration(5),
+            "\n...I guess not!\n");
+        yield return StartCoroutine(flipGravity);
 
         yield return new WaitForSecondsRealtime(20);
         root.SetActive(true);
         speechBox.text = "Thank you for playing!\nThis is a work-in-progress LD48 game.\nSend me feedback!";
+    }
+
+    class EndCondition {
+        public int GoalsScored = -1;
+        public float Duration = -1f;
+        
+        float TargetTime = float.MaxValue;
+        int TargetGoals = int.MaxValue;
+
+        public void Start(Match activeMatch) {
+            if (GoalsScored > 0) {
+                TargetGoals = activeMatch.TotalGoalsScored + GoalsScored;
+            } else {
+                TargetTime = Time.time + Duration;
+            }
+        }
+
+        public bool IsInProgress(Match activeMatch) {
+            return activeMatch.TotalGoalsScored < TargetGoals
+                && Time.time < TargetTime;
+        }
+    }
+
+    EndCondition ForDuration(float duration) {
+        return new EndCondition { Duration = duration };
+    }
+
+    EndCondition ForGoals(int goals) {
+        return new EndCondition { GoalsScored = goals };
+    }
+
+    IEnumerator ApplyMod(MatchMod mod,
+                         string intro = null,
+                         EndCondition ender = null,
+                         string outro = null) {
+        
+        // intro text has to be read
+        yield return StartCoroutine(ShowTextFor(intro, 5f));
+        activeMatch.AddMod(mod);
+
+        if (ender == null) {
+            yield break;
+        }
+
+        ender.Start(activeMatch);
+        while(ender.IsInProgress(activeMatch)) {
+            yield return null;
+        }
+
+        activeMatch.RemoveMod(mod);
+
+        StartCoroutine(ShowTextFor(outro, 5f));
+    }
+
+    // if text is null or empty then ignored
+    IEnumerator ShowTextFor(string text, float duration) {
+
+        if (string.IsNullOrEmpty(text)) {
+            yield break;
+        }
+
+        root.SetActive(true);
+        speechBox.text = text;
+        
+        yield return new WaitForSecondsRealtime(5);
+
+        if (speechBox.text == text) {
+            // we still have control
+            root.SetActive(false);
+        }
     }
 
     IEnumerator PlayScript(IList<string> script, float initDelay) {
