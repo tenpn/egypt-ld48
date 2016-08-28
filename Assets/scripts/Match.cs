@@ -18,7 +18,7 @@ class Match : MonoBehaviour {
             ScoreUpdated(GetPlayer(ball.owner), scores[pIndex]);
         }
 
-        var clip = ball.Points > 3 ? bigGoalSfx : goalSfx;
+        var clip = ball.Points >= 2 ? bigGoalSfx : goalSfx;
         sfx.pitch = 1 + Random.Range(-pitchShift, pitchShift);
         sfx.PlayOneShot(clip);
         
