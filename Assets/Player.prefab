@@ -318,8 +318,8 @@ MonoBehaviour:
   statusLight: {fileID: 212000011847695028}
   minAngle: -15
   maxAngle: 30
-  p1BallCol: {r: 0, g: 0, b: 1, a: 1}
-  p2BallCol: {r: 0, g: 1, b: 0, a: 1}
+  p1BallCol: {r: 0.031372547, g: 0.29310343, b: 0.6666667, a: 1}
+  p2BallCol: {r: 0.03137255, g: 0.8, b: 0.67058825, a: 1}
   shootPfx: {fileID: 198000013170159880}
   sfx: {fileID: 82000014186973158}
   shootClip: {fileID: 8300000, guid: 6abfb69362ba440e0b3aab94aca2dec1, type: 3}
