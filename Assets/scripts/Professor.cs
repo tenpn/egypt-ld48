@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
+
+using Random = UnityEngine.Random;
 
 class Professor : MonoBehaviour {
 
@@ -175,72 +178,128 @@ class Professor : MonoBehaviour {
         StartCoroutine(EndlessRules());
     }
 
+    class Rule {
+        public bool IsAlwaysEnded = false;
+        public string Intro;
+        public string Outro;
+        public float Weight = 1f;
+
+        // how many rounds until we can select again
+        public int SelectionCount = 0;
+        public bool IsSelectable {
+            get { return SelectionCount <= 0; }
+        }
+        // minimum how many rounds between selections
+        public int SelectionSeparate = 3;
+        
+        public Func<MatchMod> CreateMod;
+    }
+
+    Rule[] rules = new [] {
+        new Rule {
+            CreateMod = () => new MatchMod { Type = MatchModType.MirrorSides },
+            Intro = "Ah it turns out, you should have started on the other sides!\n",
+            Outro = "The evidence is conflicting! Let's swap sides again.\n",
+            Weight = 0.2f,
+            SelectionSeparate = 6,
+        },
+        new Rule {
+            CreateMod = () => new MatchMod {
+                Type = MatchModType.Gravity,
+                Strength = -0.5f,
+            },
+            IsAlwaysEnded = true,
+            Intro = "A metareview has found that balls indeed should go up!!\n",
+            Outro = "Hmm that's as useless as last time...\n",
+            Weight = 0.2f,
+            SelectionSeparate = 10,
+        },
+        new Rule {
+            CreateMod = () => new MatchMod {
+                Type = MatchModType.Ball,
+                Ball = new BallMod { PointsMul = 3f },
+            },
+            Weight = 0.8f,
+            Intro = "A new source that agrees goals should be worth more!\n",
+            Outro = "That goal score source was... discredited.\n",
+        },
+        new Rule {
+            CreateMod = () => new MatchMod {
+                Type = MatchModType.Ball,
+                Ball = new BallMod { PointsMul = 0.5f },
+            },
+            Intro = "Cross-discipline scholars think our goals are worth too much.\n",
+            Outro = "Oh turns out those scholars were talking metaphorically.\n",
+            Weight = 0.5f,
+        },
+        new Rule {
+            CreateMod = () => new MatchMod {
+                Type = MatchModType.Ball,
+                Ball = new BallMod {
+                    MassMul = 1.5f,
+                    PowerAdd = 500f,
+                },
+            },
+            Intro = "My research assistant found references to heavier balls!\n",
+            Outro = "My assistant... was talking about something else.\n",
+            Weight = 0.5f,
+        },
+        new Rule {
+            CreateMod = () => new MatchMod {
+                Type = MatchModType.Ball,
+                Ball = new BallMod {
+                    MassMul = 0.7f,
+                    PowerAdd = -200f,
+                },
+            },
+            Intro = "I don't think the Egyptians would have had the tech to make balls this heavy.\n\nLet's try going lighter.",
+            Outro = "But I suppose if they had alien help, they could have made those heavier balls...\n",
+            Weight = 0.5f,
+        },
+    };
+
     IEnumerator EndlessRules() {
         while(true) {
             float interval = Random.Range(7f, 13f);
             Debug.Log("delay " + interval);
             yield return new WaitForSecondsRealtime(interval);
 
+            float totalWeight = 0f;
+            foreach(var rule in rules) {
+                if (rule.IsSelectable) {
+                    totalWeight += rule.Weight;
+                }
+            }
+
+            var choice = Random.value * totalWeight;
+            Debug.Log("choice: " + choice);
+            Rule chosenRule = null;
+            foreach(var rule in rules) {
+                if (rule.IsSelectable) {
+                    totalWeight -= rule.Weight;
+                    if (totalWeight <= 0f) {
+                        chosenRule = rule;
+                        break;
+                    }
+                }
+            }
+
+            foreach(var rule in rules) {
+                --rule.SelectionCount;
+            }
+            
+            chosenRule.SelectionCount = chosenRule.SelectionSeparate;
+
             var endChoice = Random.value;
-            EndCondition endCond = endChoice < 0.4 ? null
+            EndCondition endCond
+                = endChoice < 0.4 && chosenRule.IsAlwaysEnded == false ? null
                 : ForDuration(Random.Range(7f, 14f));
             Debug.Log("end choice:" + endCond);
                 
-            var choice = Random.value;
-            Debug.Log("choice: " + choice);
-
-            string intro, outro;
-            MatchMod mod;
-
-            if (choice < 0.2) {
-                mod = new MatchMod { Type = MatchModType.MirrorSides };
-                intro = "Ah it turns out, you should have started on the other sides!\n";
-                outro = "The evidence is conflicting! Let's swap sides again.\n";
-            } else if (choice < 0.25) {
-                mod = new MatchMod {
-                    Type = MatchModType.Gravity,
-                    Strength = -0.5f,
-                };
-                intro = "A metareview has found that balls indeed should go up!!\n";
-                outro = "Hmm that's as useless as last time...\n";
-                endCond = ForDuration(5f);
-            } else if (choice < 0.5) {
-                mod = new MatchMod {
-                    Type = MatchModType.Ball,
-                    Ball = new BallMod { PointsMul = 3f },
-                };
-                intro = "A new source that agrees goals should be worth more!\n";
-                outro = "That goal score source was... discredited.\n";
-            } else if (choice < 0.65) {
-                mod = new MatchMod {
-                    Type = MatchModType.Ball,
-                    Ball = new BallMod { PointsMul = 0.5f },
-                };
-                intro = "Cross-discipline scholars think our goals are worth too much.\n";
-                outro = "Oh turns out those scholars were talking metaphorically.\n";
-            } else if (choice < 0.85) {
-                mod = new MatchMod {
-                    Type = MatchModType.Ball,
-                    Ball = new BallMod {
-                        MassMul = 1.5f,
-                        PowerAdd = 500f,
-                    },
-                };
-                intro = "My research assistant found references to heavier balls!\n";
-                outro = "My assistant... was talking about something else.\n";
-            } else {
-                mod = new MatchMod {
-                    Type = MatchModType.Ball,
-                    Ball = new BallMod {
-                        MassMul = 0.7f,
-                        PowerAdd = -200f,
-                    },
-                };
-                intro = "I don't think the Egyptians would have had the tech to make balls this heavy.\n\nLet's try going lighter.";
-                outro = "But I suppose if they had alien help, they could have made those heavier balls...\n";
-            }
-
-            var modder = ApplyMod(mod, intro, endCond, outro);
+            var modder = ApplyMod(chosenRule.CreateMod(),
+                                  chosenRule.Intro,
+                                  endCond,
+                                  chosenRule.Outro);
             yield return StartCoroutine(modder);
         }
     }
