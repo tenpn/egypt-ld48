@@ -2902,6 +2902,49 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 637518324}
+--- !u!1 &667271903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 667271904}
+  - 61: {fileID: 667271905}
+  m_Layer: 0
+  m_Name: high funnel cap
+  m_TagString: terrain
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &667271904
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 667271903}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.2, y: 28.4, z: 0}
+  m_LocalScale: {x: 0.60999244, y: 3.0079827, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 870294423}
+  m_RootOrder: 16
+--- !u!61 &667271905
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 667271903}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 50, y: 10}
 --- !u!1 &870294422
 GameObject:
   m_ObjectHideFlags: 0
@@ -2944,6 +2987,7 @@ Transform:
   - {fileID: 1958689993}
   - {fileID: 987010260}
   - {fileID: 1451017621}
+  - {fileID: 667271904}
   - {fileID: 1882015791}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -6172,7 +6216,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 870294423}
-  m_RootOrder: 16
+  m_RootOrder: 17
 --- !u!114 &1882015792
 MonoBehaviour:
   m_ObjectHideFlags: 0
