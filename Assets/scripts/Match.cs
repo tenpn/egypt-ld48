@@ -46,7 +46,7 @@ class Match : MonoBehaviour {
         }
     }
 
-    public event Action<IEnumerable<BallMod>> ModsChanged;
+    public event Action<Player.PlayerIndex, IEnumerable<BallMod>> ModsChanged;
 
     public void AddMod(MatchMod mod) {
         Assert.IsNotNull(mod);
@@ -67,10 +67,17 @@ class Match : MonoBehaviour {
             Assert.IsNotNull(mod.Ball);
             activeBallMods.Add(mod.Ball);
             break;
+            
+        case MatchModType.AltBall:
+            Assert.IsNotNull(mod.Ball);
+            altBallMods.Add(mod.Ball);
+            isAltBallModsEnabled = true;
+            break;
         }
 
         if (ModsChanged != null) {
-            ModsChanged(activeBallMods);
+            ModsChanged(Player.PlayerIndex.P1, GetBallModsForPlayer(Player.PlayerIndex.P1));
+            ModsChanged(Player.PlayerIndex.P2, GetBallModsForPlayer(Player.PlayerIndex.P2));
         }
     }
 
@@ -88,24 +95,42 @@ class Match : MonoBehaviour {
             Physics2D.gravity = new Vector2(Physics2D.gravity.x,
                                             Physics2D.gravity.y / modToRemove.Strength);
             break;
+            
         case MatchModType.Ball:
             Assert.IsNotNull(modToRemove.Ball);
             activeBallMods.Remove(modToRemove.Ball);
             break;
+            
+        case MatchModType.AltBall:
+            Assert.IsNotNull(modToRemove.Ball);
+            altBallMods.Remove(modToRemove.Ball);
+            break;
         }
 
         if (ModsChanged != null) {
-            ModsChanged(activeBallMods);
+            ModsChanged(Player.PlayerIndex.P1, GetBallModsForPlayer(Player.PlayerIndex.P1));
+            ModsChanged(Player.PlayerIndex.P2, GetBallModsForPlayer(Player.PlayerIndex.P2));
         }
     }
 
-    public void ApplyMods(Ball ball) {
-        ball.ApplyMods(activeBallMods);
+    public void ApplyMods(Ball ball, Player.PlayerIndex sourcePlayer) {
+
+        var sourceMods = GetBallModsForPlayer(sourcePlayer);
+        
+        ball.ApplyMods(sourceMods);
 
         labels.AttachLabel(ball.SummariseMods(), ball.transform);
 
         activeBalls.Add(ball.gameObject);
         TrimOldBalls();
+
+        int index = sourcePlayer == Player.PlayerIndex.P1 ? 0 : 1;
+        ++shotCounts[index];
+
+        if (ModsChanged != null) {
+            // get mods again, because we've cycled shot
+            ModsChanged(sourcePlayer, GetBallModsForPlayer(sourcePlayer));
+        }
     }
 
     public bool RequestPause = false;
@@ -113,6 +138,7 @@ class Match : MonoBehaviour {
     //////////////////////////////////////////////////
 
     float[] scores = new float[2];
+    int[] shotCounts = new int[2];
     Player[] players;
     float freeze = 0f;
 
@@ -123,6 +149,8 @@ class Match : MonoBehaviour {
 
     IList<MatchMod> activeMods = new List<MatchMod>();
     IList<BallMod> activeBallMods = new List<BallMod>();
+    IList<BallMod> altBallMods = new List<BallMod>();
+    bool isAltBallModsEnabled = false;
 
     [SerializeField] ParticleSystem goalCelebration;
     [SerializeField] AudioClip goalSfx;
@@ -144,6 +172,16 @@ class Match : MonoBehaviour {
         freeze -= Time.unscaledDeltaTime;
         freeze = Mathf.Max(0f, freeze);
         Time.timeScale = freeze == 0f && RequestPause == false ? 1f : 0f;
+    }
+
+    IList<BallMod> GetBallModsForPlayer(Player.PlayerIndex p) {
+        int index = p == Player.PlayerIndex.P1 ? 0 : 1;
+        int shotCount = shotCounts[index];
+        
+        var sourceMods = shotCount % 2 == 0 || isAltBallModsEnabled == false
+            ? activeBallMods
+            : altBallMods;
+        return sourceMods;
     }
 
     void TrimOldBalls() {

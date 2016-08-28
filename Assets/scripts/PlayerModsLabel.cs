@@ -8,6 +8,8 @@ class PlayerModsLabel : MonoBehaviour {
     //////////////////////////////////////////////////
 
     Text label;
+    // slightly convoluted so we work if switched
+    [SerializeField] Player target;
 
     //////////////////////////////////////////////////
 
@@ -19,7 +21,9 @@ class PlayerModsLabel : MonoBehaviour {
         label.text = "";
     }
 
-    void OnModsChanged(IEnumerable<BallMod> mods) {
-        label.text = mods.SummariseMods(false);
+    void OnModsChanged(Player.PlayerIndex i, IEnumerable<BallMod> mods) {
+        if (i == target.Index) {
+            label.text = mods.SummariseMods(false);
+        }
     }
 }

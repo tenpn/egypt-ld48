@@ -2,6 +2,7 @@ public enum MatchModType {
     MirrorSides,
     Gravity,
     Ball,
+    AltBall,
 }
 
 public class MatchMod {

@@ -52,7 +52,7 @@ class Player : MonoBehaviour {
             var pColor = p == PlayerIndex.P1 ? p1BallCol : p2BallCol;
             newBall.Color = pColor;
 
-            activeMatch.ApplyMods(newBall);
+            activeMatch.ApplyMods(newBall, Index);
             
             float flipper = transform.localScale.x;
             float force = Random.Range(-fireForceRandomDelta, fireForceRandomDelta)

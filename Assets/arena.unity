@@ -5480,6 +5480,12 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 2.56, y: 20.81}
+--- !u!114 &1009989077 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000011318275186, guid: fa21a521bca7c49588f6abc799982295,
+    type: 2}
+  m_PrefabInternal: {fileID: 146992403}
+  m_Script: {fileID: 11500000, guid: ddf022cbf9e7848dc906c06c08efb7d1, type: 3}
 --- !u!1 &1014310431
 GameObject:
   m_ObjectHideFlags: 0
@@ -5889,6 +5895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 342a0f1171b8b4027bf8263ed5886477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 1009989077}
 --- !u!114 &1353380044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6258,6 +6265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 342a0f1171b8b4027bf8263ed5886477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 1669978552}
 --- !u!114 &1488685526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6412,6 +6420,12 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+--- !u!114 &1669978552 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000011318275186, guid: fa21a521bca7c49588f6abc799982295,
+    type: 2}
+  m_PrefabInternal: {fileID: 111057709}
+  m_Script: {fileID: 11500000, guid: ddf022cbf9e7848dc906c06c08efb7d1, type: 3}
 --- !u!1 &1700737738
 GameObject:
   m_ObjectHideFlags: 0
