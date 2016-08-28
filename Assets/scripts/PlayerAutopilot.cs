@@ -15,20 +15,22 @@ class PlayerAutopilot : MonoBehaviour {
     float twistCountdown = 0f;
     float lastAim = 0f;
     PlayerInput input = null;
+    bool isInControl = false;
 
     //////////////////////////////////////////////////
 
     void Awake() {
         p = GetComponent<Player>();
         input = GetComponent<PlayerInput>();
-        input.enabled = true;
     }
 
     void Update() {
 
         if (Input.GetKeyDown(KeyCode.T)) {
-            input.enabled = !input.enabled;
+            isInControl = !isInControl;
         }
+
+        input.enabled = isInControl == false || p.Index == Player.PlayerIndex.P1;
 
         if (input.enabled) {
             // player is controlling!
