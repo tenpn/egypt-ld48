@@ -2916,7 +2916,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 870294423}
-  m_RootOrder: 18
+  m_RootOrder: 19
 --- !u!60 &655077009
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -3012,6 +3012,61 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 50, y: 10}
+--- !u!1 &795305187
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 795305188}
+  - 61: {fileID: 795305190}
+  - 114: {fileID: 795305189}
+  m_Layer: 0
+  m_Name: funnel culler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &795305188
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 795305187}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 16.95, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 870294423}
+  m_RootOrder: 17
+--- !u!114 &795305189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 795305187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69a1aa824007040319f61527a88523dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &795305190
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 795305187}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 3.08, y: 9.46}
 --- !u!1 &870294422
 GameObject:
   m_ObjectHideFlags: 0
@@ -3055,6 +3110,7 @@ Transform:
   - {fileID: 987010260}
   - {fileID: 1451017621}
   - {fileID: 667271904}
+  - {fileID: 795305188}
   - {fileID: 1882015791}
   - {fileID: 655077008}
   - {fileID: 965873930}
@@ -5113,7 +5169,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 870294423}
-  m_RootOrder: 19
+  m_RootOrder: 20
 --- !u!60 &965873931
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -6367,7 +6423,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 870294423}
-  m_RootOrder: 17
+  m_RootOrder: 18
 --- !u!114 &1882015792
 MonoBehaviour:
   m_ObjectHideFlags: 0
