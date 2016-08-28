@@ -275,6 +275,17 @@ class Professor : MonoBehaviour {
             SelectionCount = 2,
             Weight = 0.3f,
         },
+        new Rule {
+            CreateMod = () => new MatchMod {
+                Type = MatchModType.AmmoBoost,
+                Strength = 1.5f,
+            },
+            Intro = "Scrolls from Nubia imply each player had more shots\n",
+            Outro = "...but they may have been talking about ultimate frisbee?\n",
+            // don't let it stick around because I'm worried about fire rates
+            IsAlwaysEnded = true,
+            Weight = 0.35f,
+        }
     };
 
     Rule SelectRule() {
