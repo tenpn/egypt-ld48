@@ -5,7 +5,9 @@ class HitSfx : MonoBehaviour {
 
     float ignoreSfxCountdown = 0.5f;
     [SerializeField] AudioClip smallHit;
+    [SerializeField] AudioClip ballHit;
     [SerializeField] AnimationCurve volBySqrVal;
+    [SerializeField] AnimationCurve ballVolBySqrVal;
     [SerializeField] AudioSource sfx;
     [SerializeField] float pitchShift = 0.1f;
 
@@ -19,10 +21,16 @@ class HitSfx : MonoBehaviour {
         if (ignoreSfxCountdown > 0) {
             return;
         }
-        float targetVol = volBySqrVal.Evaluate(other.relativeVelocity.sqrMagnitude);
+
+        bool isBallOnBall = other.gameObject.CompareTag("ball");
+
+        var ducker = isBallOnBall ? ballVolBySqrVal : volBySqrVal;
+        float targetVol = ducker.Evaluate(other.relativeVelocity.sqrMagnitude);
+        
         if (targetVol > 0f) {
             sfx.pitch = 1f + Random.Range(-pitchShift, pitchShift);
-            sfx.PlayOneShot(smallHit, targetVol);
+            var clip = isBallOnBall ? ballHit : smallHit;
+            sfx.PlayOneShot(clip, targetVol);
         }
     }
 }

@@ -27,7 +27,7 @@ GameObject:
   - 114: {fileID: 114000012176967194}
   m_Layer: 0
   m_Name: ball
-  m_TagString: Untagged
+  m_TagString: ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smallHit: {fileID: 8300000, guid: 2dcb9a33689a144848b3ee71d9a71255, type: 3}
+  ballHit: {fileID: 8300000, guid: 303851e4a9e4f44d0ad6dd288dd91bec, type: 3}
   volBySqrVal:
     serializedVersion: 2
     m_Curve:
@@ -178,7 +179,24 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  ballVolBySqrVal:
+    serializedVersion: 2
+    m_Curve:
+    - time: 15
+      value: 0
+      inSlope: 0.018181818
+      outSlope: 0.018181818
+      tangentMode: 10
+    - time: 70
+      value: 1
+      inSlope: 0.018181818
+      outSlope: 0.018181818
+      tangentMode: 10
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   sfx: {fileID: 82000014153096158}
+  pitchShift: 0.1
 --- !u!114 &114000014268496800
 MonoBehaviour:
   m_ObjectHideFlags: 1
