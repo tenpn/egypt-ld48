@@ -2667,6 +2667,9 @@ MonoBehaviour:
   bigGoalSfx: {fileID: 8300000, guid: d78e1f7e470e8406b88b34af5152f781, type: 3}
   sfx: {fileID: 597191040}
   pitchShift: 0
+  ballCullTriggerCount: 35
+  ballTargetCount: 10
+  ballMaxReduction: 2
 --- !u!4 &597191039
 Transform:
   m_ObjectHideFlags: 0
