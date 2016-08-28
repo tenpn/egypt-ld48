@@ -16,47 +16,19 @@ class Ball : MonoBehaviour {
     }
 
     public float MassMul {
-        get {
-            float massMul = 1f;
-            foreach(var mod in mods) {
-                massMul *= mod.MassMul;
-            }
-            return massMul;
-        }
+        get { return mods.MassMul(); }
     }
 
     public float Points {
-        get {
-            float mul = 1f;
-            foreach(var mod in mods) {
-                mul *= mod.PointsMul;
-            }
-            return mul;
-        }
+        get { return mods.Points(); }
     }
 
     public float AdditionalPower {
-        get {
-            float power = 0f;
-            foreach(var mod in mods) {
-                power += mod.PowerAdd;
-            }
-            return power;
-        }
+        get { return mods.AdditionalPower(); }
     }
 
     public string SummariseMods() {
-        var res = "";
-        if (Points != 1f) {
-            res += "x" + Points + "pts";
-        }
-        if (MassMul != 1f) {
-            if (res != "") {
-                res += "\n";
-            }
-            res += "x" + MassMul + "kg";
-        }
-        return res;
+        return mods.SummariseMods();
     }
 
     //////////////////////////////////////////////////
