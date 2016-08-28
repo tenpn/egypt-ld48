@@ -49,7 +49,8 @@ class Player : MonoBehaviour {
             var newBall = (Ball)Instantiate(ballPrefab, activeMatch.transform);
             newBall.owner = p;
             newBall.transform.position = emittPoint.position;
-            newBall.Color = p == PlayerIndex.P1 ? p1BallCol : p2BallCol;
+            var pColor = p == PlayerIndex.P1 ? p1BallCol : p2BallCol;
+            newBall.Color = pColor;
 
             activeMatch.ApplyMods(newBall);
             
@@ -59,6 +60,7 @@ class Player : MonoBehaviour {
                 + powerByWeight.Evaluate(newBall.phys.mass);
             newBall.phys.AddForce(transform.right * force * flipper);
             timeToFire = cooldown;
+            shootPfx.startColor = pColor;
             shootPfx.Play();
 
             sfx.pitch = 1f + Random.Range(-shootPitchShift, shootPitchShift);
