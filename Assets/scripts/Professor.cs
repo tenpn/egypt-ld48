@@ -149,10 +149,12 @@ class Professor : MonoBehaviour {
                     PowerAdd = 800f,
                 },
             },
-            "A beautiful tablet!\n\nAnd it says the balls should be heavier!");
-        yield return StartCoroutine(heavyBalls);
+            "A beautiful tablet!\n\nAnd it says the balls should be heavier!\n",
+            ForDuration(45),
+            "Not again! A peer review has rejected my heavier-balls hypothesis.\n");
+        StartCoroutine(heavyBalls);
                                 
-        yield return new WaitForSecondsRealtime(25);
+        yield return new WaitForSecondsRealtime(30);
         
         var flipGravity = ApplyMod(
             new MatchMod {
@@ -164,7 +166,7 @@ class Professor : MonoBehaviour {
             "\n...I guess not!\n");
         yield return StartCoroutine(flipGravity);
 
-        yield return new WaitForSecondsRealtime(20);
+        yield return new WaitForSecondsRealtime(30);
         root.SetActive(true);
         speechBox.text = "Thank you for playing!\nThis is a work-in-progress LD48 game.\nSend me feedback!";
     }
