@@ -45,7 +45,7 @@ class Player : MonoBehaviour {
         statusLight.color = canFire ? Color.green : Color.red;
 
         if (canFire && newYoke.Fire) {
-            var newBall = Instantiate(ballPrefab);
+            var newBall = (Ball)Instantiate(ballPrefab, activeMatch.transform);
             newBall.owner = this;
             newBall.transform.position = emittPoint.position;
             newBall.Color = p == PlayerIndex.P1 ? p1BallCol : p2BallCol;
