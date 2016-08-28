@@ -134,6 +134,7 @@ class Professor : MonoBehaviour {
         speechBox.text = "Back to the dig!\n\nI'll figure this out, or my name isn't Professor St John Hamilton She-Ra Ludum The Third!";
 
         yield return StartCoroutine(WaitThenHide(5));
+        root.SetActive(false);
 
         yield return StartCoroutine(WaitForGoals(5));
 
@@ -160,6 +161,10 @@ class Professor : MonoBehaviour {
         Physics2D.gravity = oldGrav;
         yield return new WaitForSecondsRealtime(5);
         root.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(10);
+        root.SetActive(true);
+        speechBox.text = "Thank you for playing!\nThis is a work-in-progress LD48 game.\nSend me feedback!";
     }
 
     IEnumerator PlayScript(IList<string> script, float initDelay) {
