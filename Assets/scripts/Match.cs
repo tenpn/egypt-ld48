@@ -2,6 +2,8 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
+using Random = UnityEngine.Random;
+
 class Match : MonoBehaviour {
 
     public event Action<Player,int> ScoreUpdated;
@@ -13,6 +15,11 @@ class Match : MonoBehaviour {
         if (ScoreUpdated != null) {
             ScoreUpdated(scorer, scores[pIndex]);
         }
+
+        var clip = ball.Points > 3 ? bigGoalSfx : goalSfx;
+        sfx.pitch = 1 + Random.Range(-pitchShift, pitchShift);
+        sfx.PlayOneShot(clip);
+        
         goalCelebration.Play();
         freeze += 0.15f;
     }
@@ -51,6 +58,10 @@ class Match : MonoBehaviour {
     FloatingLabels labels;
 
     [SerializeField] ParticleSystem goalCelebration;
+    [SerializeField] AudioClip goalSfx;
+    [SerializeField] AudioClip bigGoalSfx;
+    [SerializeField] AudioSource sfx;
+    [SerializeField] float pitchShift = 0.1f;
     
     //////////////////////////////////////////////////
 

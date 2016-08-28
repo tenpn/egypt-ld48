@@ -2573,6 +2573,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 597191039}
   - 114: {fileID: 597191038}
+  - 82: {fileID: 597191040}
   m_Layer: 0
   m_Name: Match
   m_TagString: Untagged
@@ -2593,6 +2594,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RequestPause: 0
   goalCelebration: {fileID: 897416051}
+  goalSfx: {fileID: 8300000, guid: e5c7bd02dcab749699cb222dd8d90cec, type: 3}
+  bigGoalSfx: {fileID: 8300000, guid: d78e1f7e470e8406b88b34af5152f781, type: 3}
+  sfx: {fileID: 597191040}
+  pitchShift: 0
 --- !u!4 &597191039
 Transform:
   m_ObjectHideFlags: 0
@@ -2606,6 +2611,80 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!82 &597191040
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 597191037}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 89
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1 &607852694
 GameObject:
   m_ObjectHideFlags: 0
@@ -5573,6 +5652,11 @@ Prefab:
     - target: {fileID: 1000010845113788, guid: fa21a521bca7c49588f6abc799982295, type: 2}
       propertyPath: m_Name
       value: Player 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82000014186973158, guid: fa21a521bca7c49588f6abc799982295,
+        type: 2}
+      propertyPath: Priority
+      value: 154
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fa21a521bca7c49588f6abc799982295, type: 2}
