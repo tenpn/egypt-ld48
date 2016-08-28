@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 class Match : MonoBehaviour {
 
-    public event Action<Player,int> ScoreUpdated;
+    public event Action<Player,float> ScoreUpdated;
     public event Action PlayerUpdated;
 
     public void Score(Ball ball) {
@@ -30,12 +30,12 @@ class Match : MonoBehaviour {
         return players[0].Index == p ? players[0] : players[1];
     }
 
-    public int GetScoreOfPlayer(Player.PlayerIndex p) {
+    public float GetScoreOfPlayer(Player.PlayerIndex p) {
         var scoreIndex = p == Player.PlayerIndex.P1 ? 0 : 1;
         return scores[scoreIndex];
     }
 
-    public int TotalGoalsScored {
+    public float TotalGoalsScored {
         get { return scores[0] + scores[1]; }
     }
 
@@ -81,7 +81,6 @@ class Match : MonoBehaviour {
         case MatchModType.Gravity:
             Physics2D.gravity = new Vector2(Physics2D.gravity.x,
                                             Physics2D.gravity.y / modToRemove.Strength);
-            Debug.Log("restored g: " + Physics2D.gravity.y);
             break;
         case MatchModType.Ball:
             Assert.IsNotNull(modToRemove.Ball);
@@ -97,14 +96,13 @@ class Match : MonoBehaviour {
 
         activeBalls.Add(ball.gameObject);
         TrimOldBalls();
-        Debug.Log("ball count:" + activeBalls.Count);
     }
 
     public bool RequestPause = false;
 
     //////////////////////////////////////////////////
 
-    int[] scores = new int[2];
+    float[] scores = new float[2];
     Player[] players;
     float freeze = 0f;
 

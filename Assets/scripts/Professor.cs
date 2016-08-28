@@ -55,7 +55,7 @@ class Professor : MonoBehaviour {
         currentState = State.WaitForFirstScore;
     }
 
-    void OnScore(Player p, int newScore) {
+    void OnScore(Player p, float newScore) {
         if (currentState == State.WaitForFirstScore) {
             speechBox.text = string.Format("Congratulations, {0}! That's it!\n\nYou both seem to be getting the hang of it. Carry on while I return to the dig.\n",
                                            p.Name);
@@ -83,7 +83,7 @@ class Professor : MonoBehaviour {
     }
 
     IEnumerator WaitForGoals(int goalDelta) {
-        int goalTarget = activeMatch.TotalGoalsScored + goalDelta;
+        float goalTarget = activeMatch.TotalGoalsScored + (float)goalDelta;
         while(activeMatch.TotalGoalsScored < goalTarget) {
             yield return null;
         }
@@ -176,7 +176,7 @@ class Professor : MonoBehaviour {
         public float Duration = -1f;
         
         float TargetTime = float.MaxValue;
-        int TargetGoals = int.MaxValue;
+        float TargetGoals = float.MaxValue;
 
         public void Start(Match activeMatch) {
             if (GoalsScored > 0) {

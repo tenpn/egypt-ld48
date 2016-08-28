@@ -25,13 +25,13 @@ class Ball : MonoBehaviour {
         }
     }
 
-    public int Points {
+    public float Points {
         get {
             float mul = 1f;
             foreach(var mod in mods) {
                 mul *= mod.PointsMul;
             }
-            return Mathf.FloorToInt(mul);
+            return mul;
         }
     }
 

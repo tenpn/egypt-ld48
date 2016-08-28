@@ -33,7 +33,7 @@ class ScoreLabel : MonoBehaviour {
         scoreLabel.text = activeMatch.GetScoreOfPlayer(targetPlayer.Index).ToString();
     }
 
-    void OnNewScore(Player p, int newScore) {
+    void OnNewScore(Player p, float newScore) {
         if (p == targetPlayer) {
             scoreLabel.text = newScore.ToString();
             anims.SetTrigger("on-score-inc");
