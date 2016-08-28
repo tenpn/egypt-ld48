@@ -6192,12 +6192,12 @@ MonoBehaviour:
       inSlope: 0
       outSlope: 0
       tangentMode: 0
-    - time: 10
+    - time: 4.987013
       value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
-    - time: 20
+    - time: 14.987013
       value: 0.2
       inSlope: -0.08
       outSlope: 0
