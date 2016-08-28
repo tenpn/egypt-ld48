@@ -307,6 +307,10 @@ class Professor : MonoBehaviour {
         return chosenRule;
     }
 
+    int stepsUntilAlts = 5;
+    float altChance = 0.5f;
+    bool isAltSpeechDone = false;
+    
     IEnumerator EndlessRules() {
 
         while(true) {
@@ -324,15 +328,25 @@ class Professor : MonoBehaviour {
             Rule chosenRule = SelectRule();
 
             if (chosenRule != null) {
-                chosenRule.SelectionCount = chosenRule.SelectionSeparate;
+
+                --stepsUntilAlts;
+                bool isAlt = stepsUntilAlts <= 0 && Random.value < altChance;
+                var mod = chosenRule.CreateMod();
+                mod.Type = mod.Type == MatchModType.Ball && isAlt ? MatchModType.AltBall
+                    : mod.Type;
+
+                if (isAltSpeechDone == false && isAlt) {
+                    isAltSpeechDone = true;
+                    var altIntro = "It says here that the Ancient Egyptians played with alternating balls of different qualities...\n\nLet's try that!\n";
+                    yield return StartCoroutine(ShowTextFor(altIntro, 5f));
+                }
 
                 var endChoice = Random.value;
                 EndCondition endCond
                     = endChoice < 0.4 && chosenRule.IsAlwaysEnded == false ? null
                     : ForDuration(Random.Range(7f, 14f));
-                Debug.Log("end choice:" + endCond);
                 
-                var modder = ApplyMod(chosenRule.CreateMod(),
+                var modder = ApplyMod(mod,
                                       chosenRule.Intro,
                                       endCond,
                                       chosenRule.Outro);
