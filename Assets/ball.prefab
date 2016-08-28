@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smallHit: {fileID: 8300000, guid: 2dcb9a33689a144848b3ee71d9a71255, type: 3}
+  bigHit: {fileID: 8300000, guid: 072f1fa778a3d42508efffc0d3581a74, type: 3}
   ballHit: {fileID: 8300000, guid: 303851e4a9e4f44d0ad6dd288dd91bec, type: 3}
   volBySqrVal:
     serializedVersion: 2
@@ -197,6 +198,7 @@ MonoBehaviour:
     m_RotationOrder: 0
   sfx: {fileID: 82000014153096158}
   pitchShift: 0.1
+  bigHitMassThreshold: 2
 --- !u!114 &114000014268496800
 MonoBehaviour:
   m_ObjectHideFlags: 1
