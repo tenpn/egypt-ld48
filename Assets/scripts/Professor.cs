@@ -70,7 +70,7 @@ class Professor : MonoBehaviour {
             if (activeMatch.TotalGoalsScored > 5) {
                 currentState = State.Rules;
                 StopAllCoroutines();
-                StartCoroutine(EndlessRules());
+                StartCoroutine(RulesScript());
             }
         }
     }
