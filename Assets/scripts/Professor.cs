@@ -19,6 +19,7 @@ class Professor : MonoBehaviour {
     [SerializeField] Text speechBox;
     [SerializeField] GameObject continueHelper;
     [SerializeField] GameObject root;
+    [SerializeField] AudioSource sfx;
 
     //////////////////////////////////////////////////
 
@@ -165,6 +166,7 @@ class Professor : MonoBehaviour {
                   && Input.GetButtonDown("P2Fire") == false) {
                 yield return null;
             }
+            sfx.Play();
             yield return null;
         }        
     }
