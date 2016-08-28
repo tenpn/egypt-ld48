@@ -15,6 +15,57 @@ class Player : MonoBehaviour {
         get { return p; }
     }
 
+    public void ApplyYoke(PlayerYoke newYoke) {
+        var currentAngles = transform.eulerAngles;
+
+        // wrap back into range so 0 is flat
+        while(currentAngles.z > 180) {
+            currentAngles.z -= 360;
+        }
+
+        while(currentAngles.z < -180) {
+            currentAngles.z += 360;
+        }
+
+        // players are on different sides, so different actions depending on flip
+
+        currentAngles.z +=
+            newYoke.Aim * rotateSpeed * Time.deltaTime * transform.localScale.x;
+        if (transform.localScale.x > 0f) {
+            currentAngles.z = Mathf.Clamp(currentAngles.z, minAngle, maxAngle);
+        } else {
+            currentAngles.z = Mathf.Clamp(currentAngles.z, -maxAngle, -minAngle);
+        }
+        transform.eulerAngles = currentAngles;
+
+        timeToFire -= Time.deltaTime;
+
+        bool canFire = HoldFire == false && timeToFire <= 0f;
+
+        statusLight.color = canFire ? Color.green : Color.red;
+
+        var button = p == PlayerIndex.P1 ? "P1Fire" : "P2Fire";
+        if (canFire && newYoke.Fire) {
+            var newBall = Instantiate(ballPrefab);
+            newBall.owner = this;
+            newBall.transform.position = emittPoint.position;
+            newBall.Color = p == PlayerIndex.P1 ? p1BallCol : p2BallCol;
+
+            activeMatch.ApplyMods(newBall);
+            
+            float flipper = transform.localScale.x;
+            float force = fireForce
+                + Random.Range(-fireForceRandomDelta, fireForceRandomDelta)
+                + newBall.AdditionalPower;
+            newBall.phys.AddForce(transform.right * force * flipper);
+            timeToFire = cooldown;
+            shootPfx.Play();
+
+            sfx.pitch = 1f + Random.Range(-shootPitchShift, shootPitchShift);
+            sfx.PlayOneShot(shootClip);
+        }
+    }
+
     // match starts with no firing
     public bool HoldFire = true;
     
@@ -45,57 +96,5 @@ class Player : MonoBehaviour {
 
     void Awake() {
         activeMatch = FindObjectOfType<Match>();
-    }
-
-    void FixedUpdate() {
-        var axis = p == PlayerIndex.P1 ? "P1Aim" : "P2Aim";
-        var aim = Input.GetAxis(axis);
-        var currentAngles = transform.eulerAngles;
-
-        // wrap back into range so 0 is flat
-        while(currentAngles.z > 180) {
-            currentAngles.z -= 360;
-        }
-
-        while(currentAngles.z < -180) {
-            currentAngles.z += 360;
-        }
-
-        // players are on different sides, so different actions depending on flip
-
-        currentAngles.z += aim * rotateSpeed * Time.deltaTime * transform.localScale.x;
-        if (transform.localScale.x > 0f) {
-            currentAngles.z = Mathf.Clamp(currentAngles.z, minAngle, maxAngle);
-        } else {
-            currentAngles.z = Mathf.Clamp(currentAngles.z, -maxAngle, -minAngle);
-        }
-        transform.eulerAngles = currentAngles;
-
-        timeToFire -= Time.deltaTime;
-
-        bool canFire = HoldFire == false && timeToFire <= 0f;
-
-        statusLight.color = canFire ? Color.green : Color.red;
-
-        var button = p == PlayerIndex.P1 ? "P1Fire" : "P2Fire";
-        if (canFire && Input.GetButtonDown(button)) {
-            var newBall = Instantiate(ballPrefab);
-            newBall.owner = this;
-            newBall.transform.position = emittPoint.position;
-            newBall.Color = p == PlayerIndex.P1 ? p1BallCol : p2BallCol;
-
-            activeMatch.ApplyMods(newBall);
-            
-            float flipper = transform.localScale.x;
-            float force = fireForce
-                + Random.Range(-fireForceRandomDelta, fireForceRandomDelta)
-                + newBall.AdditionalPower;
-            newBall.phys.AddForce(transform.right * force * flipper);
-            timeToFire = cooldown;
-            shootPfx.Play();
-
-            sfx.pitch = 1f + Random.Range(-shootPitchShift, shootPitchShift);
-            sfx.PlayOneShot(shootClip);
-        }
     }
 }

@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000011793699932}
   - 114: {fileID: 114000011318275186}
+  - 114: {fileID: 114000010351268296}
   - 82: {fileID: 82000014186973158}
   m_Layer: 0
   m_Name: Player
@@ -192,7 +193,7 @@ AudioSource:
   Loop: 0
   Mute: 0
   Spatialize: 0
-  Priority: 128
+  Priority: 154
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -250,6 +251,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114000010351268296
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010845113788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b98b2b4233e0d45a0acdd6968d1d1313, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114000011318275186
 MonoBehaviour:
   m_ObjectHideFlags: 1
