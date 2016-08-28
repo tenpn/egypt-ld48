@@ -2278,7 +2278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13796358a6d824e038b58b1109e5f714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayer: 0
+  initialPlayer: 0
   nameLabel: {fileID: 1089889969}
   scoreLabel: {fileID: 1014310433}
 --- !u!95 &264724951
@@ -2615,24 +2615,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   childPrefab: {fileID: 637518326}
---- !u!1 &590447373 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000010845113788, guid: fa21a521bca7c49588f6abc799982295,
-    type: 2}
-  m_PrefabInternal: {fileID: 111057709}
---- !u!114 &590447378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 590447373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 636b5a3b2f0564e6b9a9a17cf78e50cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fireInterval: 2
-  twistInterval: 2
 --- !u!1 &597191037
 GameObject:
   m_ObjectHideFlags: 0
@@ -6066,7 +6048,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13796358a6d824e038b58b1109e5f714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayer: 1
+  initialPlayer: 1
   nameLabel: {fileID: 607852696}
   scoreLabel: {fileID: 1483927940}
 --- !u!95 &1700737743

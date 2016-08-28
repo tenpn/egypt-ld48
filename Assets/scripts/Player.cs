@@ -13,6 +13,7 @@ class Player : MonoBehaviour {
 
     public PlayerIndex Index {
         get { return p; }
+        set { p = value; }
     }
 
     public void ApplyYoke(PlayerYoke newYoke) {
@@ -46,7 +47,7 @@ class Player : MonoBehaviour {
 
         if (canFire && newYoke.Fire) {
             var newBall = (Ball)Instantiate(ballPrefab, activeMatch.transform);
-            newBall.owner = this;
+            newBall.owner = p;
             newBall.transform.position = emittPoint.position;
             newBall.Color = p == PlayerIndex.P1 ? p1BallCol : p2BallCol;
 

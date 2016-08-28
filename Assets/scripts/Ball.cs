@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 class Ball : MonoBehaviour {
     public Rigidbody2D phys = null;
-    public Player owner = null;
+    public Player.PlayerIndex owner;
 
     public Color Color {
         set { GetComponent<SpriteRenderer>().color = value; }

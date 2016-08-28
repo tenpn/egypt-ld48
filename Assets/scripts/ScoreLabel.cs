@@ -7,7 +7,8 @@ class ScoreLabel : MonoBehaviour {
 
     Animator anims;
     Match activeMatch;
-    [SerializeField] Player.PlayerIndex targetPlayer;
+    Player targetPlayer;
+    [SerializeField] Player.PlayerIndex initialPlayer;
 
     [SerializeField] Text nameLabel;
     [SerializeField] Text scoreLabel;
@@ -17,13 +18,23 @@ class ScoreLabel : MonoBehaviour {
     void Start() {
         anims = GetComponent<Animator>();
         activeMatch = FindObjectOfType<Match>();
+        
         activeMatch.ScoreUpdated += OnNewScore;
-        nameLabel.text = activeMatch.GetPlayer(targetPlayer).Name;
+        activeMatch.PlayerUpdated += OnNewPlayer;
+
+        targetPlayer = activeMatch.GetPlayer(initialPlayer);
+        
         scoreLabel.text = "0";
+        OnNewPlayer();
+    }
+
+    void OnNewPlayer() {
+        nameLabel.text = targetPlayer.Name;
+        scoreLabel.text = activeMatch.GetScoreOfPlayer(targetPlayer.Index).ToString();
     }
 
     void OnNewScore(Player p, int newScore) {
-        if (p.Index == targetPlayer) {
+        if (p == targetPlayer) {
             scoreLabel.text = newScore.ToString();
             anims.SetTrigger("on-score-inc");
         }

@@ -1,19 +1,21 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.Assertions;
 
 using Random = UnityEngine.Random;
 
 class Match : MonoBehaviour {
 
     public event Action<Player,int> ScoreUpdated;
+    public event Action PlayerUpdated;
 
     public void Score(Ball ball) {
         var scorer = ball.owner;
-        int pIndex = scorer == players[0] ? 0 : 1;
+        int pIndex = scorer == Player.PlayerIndex.P1 ? 0 : 1;
         scores[pIndex] += ball.Points;
         if (ScoreUpdated != null) {
-            ScoreUpdated(scorer, scores[pIndex]);
+            ScoreUpdated(GetPlayer(ball.owner), scores[pIndex]);
         }
 
         var clip = ball.Points > 3 ? bigGoalSfx : goalSfx;
@@ -28,6 +30,11 @@ class Match : MonoBehaviour {
         return players[0].Index == p ? players[0] : players[1];
     }
 
+    public int GetScoreOfPlayer(Player.PlayerIndex p) {
+        var scoreIndex = p == Player.PlayerIndex.P1 ? 0 : 1;
+        return scores[scoreIndex];
+    }
+
     public int TotalGoalsScored {
         get { return scores[0] + scores[1]; }
     }
@@ -40,6 +47,29 @@ class Match : MonoBehaviour {
     }
 
     public IList<BallMod> ActiveBallMods = new List<BallMod>();
+
+    public void AddMod(MatchMod mod) {
+        Assert.IsNotNull(mod);
+        Assert.IsFalse(activeMods.Contains(mod), "mod " + mod + " already active");
+        activeMods.Add(mod);
+        switch(mod.Type) {
+        case MatchModType.MirrorSides:
+            SwitchSides();
+            break;
+        }
+    }
+
+    public void RemoveMod(MatchMod modToRemove) {
+        Assert.IsNotNull(modToRemove);
+        Assert.IsTrue(activeMods.Contains(modToRemove),
+                      "mod " + modToRemove + " is not active");
+        activeMods.Remove(modToRemove);
+        switch(modToRemove.Type) {
+        case MatchModType.MirrorSides:
+            SwitchSides();
+            break;
+        }
+    }
 
     public void ApplyMods(Ball ball) {
         ball.ApplyMods(ActiveBallMods);
@@ -63,6 +93,8 @@ class Match : MonoBehaviour {
 
     List<GameObject> activeBalls = new List<GameObject>();
     bool isInActiveCullMode = false;
+
+    IList<MatchMod> activeMods = new List<MatchMod>();
 
     [SerializeField] ParticleSystem goalCelebration;
     [SerializeField] AudioClip goalSfx;
@@ -115,6 +147,15 @@ class Match : MonoBehaviour {
                 Destroy(ball);
                 activeBalls.RemoveAt(0);
             }
+        }
+    }
+
+    void SwitchSides() {
+        var p2 = players[1].Index;
+        players[1].Index = players[0].Index;
+        players[0].Index = p2;
+        if (PlayerUpdated != null) {
+            PlayerUpdated();
         }
     }
 }
