@@ -54,9 +54,9 @@ class Player : MonoBehaviour {
             activeMatch.ApplyMods(newBall);
             
             float flipper = transform.localScale.x;
-            float force = fireForce
-                + Random.Range(-fireForceRandomDelta, fireForceRandomDelta)
-                + newBall.AdditionalPower;
+            float force = Random.Range(-fireForceRandomDelta, fireForceRandomDelta)
+                + newBall.AdditionalPower
+                + powerByWeight.Evaluate(newBall.phys.mass);
             newBall.phys.AddForce(transform.right * force * flipper);
             timeToFire = cooldown;
             shootPfx.Play();
@@ -73,7 +73,7 @@ class Player : MonoBehaviour {
 
     [SerializeField] Ball ballPrefab;
     [SerializeField] Transform emittPoint;
-    [SerializeField] float fireForce;
+    [SerializeField] AnimationCurve powerByWeight;
     [SerializeField] float fireForceRandomDelta = 50f;
     [SerializeField] float rotateSpeed;
     [SerializeField] float cooldown = 1f;

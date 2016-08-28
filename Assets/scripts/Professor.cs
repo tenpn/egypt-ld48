@@ -70,7 +70,7 @@ class Professor : MonoBehaviour {
             if (activeMatch.TotalGoalsScored > 5) {
                 currentState = State.Rules;
                 StopAllCoroutines();
-                StartCoroutine(RulesScript());
+                StartCoroutine(EndlessRules());
             }
         }
     }
@@ -147,10 +147,7 @@ class Professor : MonoBehaviour {
         var heavyBalls = ApplyMod(
             new MatchMod {
                 Type = MatchModType.Ball,
-                Ball = new BallMod {
-                    MassMul = 2.5f,
-                    PowerAdd = 800f,
-                },
+                Ball = new BallMod { MassMul = 2.5f },
             },
             "A beautiful tablet!\n\nAnd it says the balls should be heavier!\n",
             ForDuration(45),
@@ -219,7 +216,7 @@ class Professor : MonoBehaviour {
                 Type = MatchModType.Ball,
                 Ball = new BallMod { PointsMul = 3f },
             },
-            Weight = 0.8f,
+            Weight = 0.6f,
             Intro = "A new source that agrees goals should be worth more!\n",
             Outro = "That goal score source was... discredited.\n",
         },
@@ -230,31 +227,25 @@ class Professor : MonoBehaviour {
             },
             Intro = "Cross-discipline scholars think our goals are worth too much.\n",
             Outro = "Oh turns out those scholars were talking metaphorically.\n",
-            Weight = 0.5f,
+            Weight = 0.4f,
         },
         new Rule {
             CreateMod = () => new MatchMod {
                 Type = MatchModType.Ball,
-                Ball = new BallMod {
-                    MassMul = 1.5f,
-                    PowerAdd = 500f,
-                },
+                Ball = new BallMod { MassMul = 1.5f },
             },
             Intro = "My research assistant found references to heavier balls!\n",
             Outro = "My assistant... was talking about something else.\n",
-            Weight = 0.5f,
+            Weight = 0.3f,
         },
         new Rule {
             CreateMod = () => new MatchMod {
                 Type = MatchModType.Ball,
-                Ball = new BallMod {
-                    MassMul = 0.7f,
-                    PowerAdd = -200f,
-                },
+                Ball = new BallMod { MassMul = 0.7f },
             },
             Intro = "I don't think the Egyptians would have had the tech to make balls this heavy.\n\nLet's try going lighter.",
             Outro = "But I suppose if they had alien help, they could have made those heavier balls...\n",
-            Weight = 0.5f,
+            Weight = 0.3f,
         },
     };
 
