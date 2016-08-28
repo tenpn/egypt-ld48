@@ -137,7 +137,7 @@ class Professor : MonoBehaviour {
         yield return StartCoroutine(WaitThenHide(5));
         root.SetActive(false);
 
-        yield return StartCoroutine(WaitForGoals(5));
+        yield return new WaitForSecondsRealtime(7);
 
         activeMatch.ActiveBallMods.Add(new BallMod {
                 MassMul = 2.5f,
@@ -170,6 +170,7 @@ class Professor : MonoBehaviour {
 
     IEnumerator PlayScript(IList<string> script, float initDelay) {
         root.SetActive(true);
+        continueHelper.SetActive(true);
         
         foreach(var text in script) {
             speechBox.text = text;
@@ -185,7 +186,9 @@ class Professor : MonoBehaviour {
             }
             sfx.Play();
             yield return null;
-        }        
+        }
+
+        continueHelper.SetActive(false);
     }
 
     IEnumerator PlayTimedScript(IList<string> script, float delay) {
