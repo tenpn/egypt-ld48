@@ -27,6 +27,12 @@ class Professor : MonoBehaviour {
     [SerializeField] Image speechBG;
     [SerializeField] Sprite ludumBG;
     [SerializeField] Sprite dareBG;
+    [SerializeField] GameObject[] playerScoreLabels;
+    [SerializeField] GameObject endgameRoot;
+    [SerializeField] Text endgameScoreLabel;
+    [SerializeField] Text endgameTimeLabel;
+    [SerializeField] AudioClip bigShake;
+    [SerializeField] AudioClip smallShake;
 
     //////////////////////////////////////////////////
 
@@ -34,6 +40,7 @@ class Professor : MonoBehaviour {
         activeMatch = FindObjectOfType<Match>();
         activeMatch.ScoreUpdated += OnScore;
         StartCoroutine(MatchTutorial());
+        endgameRoot.SetActive(false);
     }
 
     IEnumerator MatchTutorial() {
@@ -145,7 +152,7 @@ class Professor : MonoBehaviour {
 
         speechBox.text = "Back to the dig!\n\nI'll figure this out, or my name isn't Professor Leslie Hamilton Thundercats Ludum The Third!";
 
-        yield return StartCoroutine(WaitThenHide(5));
+        yield return StartCoroutine(WaitThenHide(6));
 
         yield return new WaitForSecondsRealtime(7);
 
@@ -173,9 +180,6 @@ class Professor : MonoBehaviour {
 
         yield return new WaitForSecondsRealtime(10);
         root.SetActive(true);
-        speechBox.text = "Thank you for playing so far!\nThis is a work-in-progress LD48 game.\nSend me feedback!";
-
-        yield return StartCoroutine(WaitThenHide(5));
 
         StartCoroutine(EndlessRules());
     }
@@ -329,7 +333,9 @@ class Professor : MonoBehaviour {
     
     IEnumerator EndlessRules() {
 
-        while(true) {
+        float endTime = Time.unscaledTime + 60 * 3;
+
+        while(endTime > Time.unscaledTime) {
             float interval = Random.Range(5f, 8f);
             Debug.Log("delay " + interval);
             yield return new WaitForSecondsRealtime(interval);
@@ -369,6 +375,8 @@ class Professor : MonoBehaviour {
                 yield return StartCoroutine(modder);
             }
         }
+
+        StartCoroutine(EndGame());
     }
 
     class EndCondition {
@@ -467,18 +475,12 @@ class Professor : MonoBehaviour {
     }
 
     IEnumerator PlayTimedScript(IList<string> script,
-                                float delay,
-                                float shake = 0f,
-                                float shakeDuration = 0f) {
+                                float delay) {
         root.SetActive(true);
         speechBG.sprite = ludumBG;
         
         foreach(var line in script) {
             speechBox.text = line;
-            if (shake > 0f) {
-                Debug.Log("shake for " + line);
-                shaker.StartShake(shakeDuration, shake);
-            }
             yield return new WaitForSecondsRealtime(delay);
         }
     }
@@ -498,6 +500,8 @@ class Professor : MonoBehaviour {
             speechBox.text = line.Text;
             if (line.ShakeForce > 0f) {
                 shaker.StartShake(line.ShakeDuration, line.ShakeForce);
+                var clip = line.ShakeForce < 0.8f ? smallShake : bigShake;
+                sfx.PlayOneShot(clip);
             }
             yield return new WaitForSecondsRealtime(line.Duration);
         }
@@ -529,6 +533,375 @@ class Professor : MonoBehaviour {
         yield return StartCoroutine(PlayShakeScript(dareIntro));
         root.SetActive(false);
 
-        yield break;
+        yield return new WaitForSecondsRealtime(3);
+
+        yield return StartCoroutine(PlayTimedScript(new []{
+                    "Um.\n",
+                    "\nWas that one of you?\n",
+                    "\n\n...because it wasn't me.",
+                }
+                , 3f));
+        root.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(1);
+
+        activeMatch.HoldFire = true;
+
+        yield return StartCoroutine(PlayShakeScript(new [] {
+                    new ShakeLine {
+                        Text = "\nWHO\n",
+                        Duration = 3,
+                        ShakeDuration = 0.5f,
+                        ShakeForce = 0.25f,
+                    },
+                    new ShakeLine {
+                        Text = "\nAWAKENS\n",
+                        Duration = 3,
+                        ShakeDuration = 0.5f,
+                        ShakeForce = 0.25f,
+                    },
+                    new ShakeLine {
+                        Text = "\nDA\n",
+                        Duration = 4,
+                        ShakeDuration = 1f,
+                        ShakeForce = 0.25f,
+                    },
+                }));
+        root.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(2);
+
+        yield return StartCoroutine(PlayTimedScript(new []{
+                    "\n(you answer it?)\n",
+                }
+                , 1f));
+
+        yield return StartCoroutine(PlayShakeScript(new [] {
+                    new ShakeLine {
+                        Text = "\nSILENCE!\n",
+                        Duration = 3,
+                        ShakeDuration = 1,
+                        ShakeForce = 0.8f,
+                    },
+                }));
+        root.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(3);
+
+        yield return StartCoroutine(PlayTimedScript(new []{
+                    "\n\n\nThis is bad.",
+                    "Have you ever heard that name before?\n",
+                    "\nIt's Da, the Ancient Egyptian God of Play!\n",
+                    "...Dare must be more than a sport, it must be some sort of ritual...\n",
+                    "And we've accidentally completed it!\n",
+                    "\nWe've awoken a God! And It doesn't sound happy!\n",
+                }
+                , 4f));
+        root.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(1);
+
+        yield return StartCoroutine(PlayTimedScript(new []{"Just let me think...\n"} , 2f));
+        
+        yield return StartCoroutine(PlayShakeScript(new [] {
+                    new ShakeLine {
+                        Text = "\nWHERE\n",
+                        Duration = 3,
+                        ShakeDuration = 0.5f,
+                        ShakeForce = 0.25f,
+                    },
+                    new ShakeLine {
+                        Text = "\nIS\n",
+                        Duration = 3,
+                        ShakeDuration = 0.25f,
+                        ShakeForce = 0.25f,
+                    },
+                    new ShakeLine {
+                        Text = "\nMY\n",
+                        Duration = 3,
+                        ShakeDuration = 0.25f,
+                        ShakeForce = 0.25f,
+                    },
+                    new ShakeLine {
+                        Text = "\nTEMPLE\n",
+                        Duration = 4,
+                        ShakeDuration = 0.5f,
+                        ShakeForce = 0.6f,
+                    },
+                }));
+        root.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(1);
+        
+        yield return StartCoroutine(PlayTimedScript(new []{
+                    "Ah well, Your... Sportiness?\n",
+                    "A long time has passed.\n\nYour children are gone.",
+                    "We are here to study the history of this Ancient Civilisation\n",
+                }
+                , 4f));
+        root.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(5);
+
+        yield return StartCoroutine(PlayTimedScript(new []{"...Hello?\n"} , 2f));
+        root.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(5);
+
+        yield return StartCoroutine(PlayShakeScript(new [] {
+                    new ShakeLine {
+                        Text = "\ngone?\n",
+                        Duration = 4,
+                    }
+                }));
+        root.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(1);
+
+        yield return StartCoroutine(PlayTimedScript(new []{
+                    "Yes, Oh Mighty Jock\n",
+                    "But we honour them through research!\n"
+                },
+                4f));
+        root.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(2);
+        
+        yield return StartCoroutine(PlayShakeScript(new [] {
+                    new ShakeLine {
+                        Text = "\nSHOW\n",
+                        Duration = 2,
+                        ShakeDuration = 0.25f,
+                        ShakeForce = 0.5f,
+                    },
+                    new ShakeLine {
+                        Text = "\nME\n",
+                        Duration = 2,
+                        ShakeDuration = 0.25f,
+                        ShakeForce = 0.25f,
+                    },
+                    new ShakeLine {
+                        Text = "",
+                        Duration = 2
+                    },
+                    new ShakeLine {
+                        Text = "\nSHOW\n",
+                        Duration = 2,
+                        ShakeDuration = 0.25f,
+                        ShakeForce = 0.25f,
+                    },
+                    new ShakeLine {
+                        Text = "\nME\n",
+                        Duration = 2,
+                        ShakeDuration = 0.25f,
+                        ShakeForce = 0.25f,
+                    },
+                    new ShakeLine {
+                        Text = "\nOR\n",
+                        Duration = 2,
+                        ShakeDuration = 0.25f,
+                        ShakeForce = 0.1f,
+                    },
+                    new ShakeLine {
+                        Text = "\nBE\n",
+                        Duration = 2,
+                        ShakeDuration = 0.25f,
+                        ShakeForce = 0.1f,
+                    },
+                    new ShakeLine {
+                        Text = "\nDESTROYED\n",
+                        Duration = 3,
+                        ShakeDuration = 1.5f,
+                        ShakeForce = 2f,
+                    },
+                }));
+        root.SetActive(false);
+        
+        yield return new WaitForSecondsRealtime(2);
+        
+        yield return StartCoroutine(PlayTimedScript(new []{
+                    "This is not how I imagined my Thursday turning out.\n",
+                    "Ok, just like we've been practicing, folks.\n",
+                    "\nLet's show Da how we play this game downtown.\n",
+                    "Score a combined 100 points in 60 seconds to placate the Deity!\n",
+                }
+                , 4f));
+        root.SetActive(false);
+        
+        yield return new WaitForSecondsRealtime(0.5f);
+        
+        activeMatch.HoldFire = false;
+        yield return StartCoroutine(PlayShakeScript(new [] {
+                    new ShakeLine {
+                        Text = "\nBEGIN\n",
+                        Duration = 2,
+                        ShakeDuration = 0.5f,
+                        ShakeForce = 0.5f,
+                    }
+                }));
+        root.SetActive(false);
+
+        foreach(var playerScore in playerScoreLabels) {
+            playerScore.SetActive(false);
+        }
+        endgameRoot.SetActive(true);
+
+        float targetTime = Time.unscaledTime + 60f;
+        float baseScore = activeMatch.TotalGoalsScored;
+        float targetScore = baseScore + 100;
+
+        while(targetTime > Time.unscaledTime) {
+
+            float newScore = activeMatch.TotalGoalsScored;
+
+            endgameTimeLabel.text
+                = Mathf.FloorToInt(targetTime - Time.unscaledTime).ToString();
+            endgameScoreLabel.text = (targetScore - newScore).ToString();
+
+            if (newScore >= targetScore) {
+                activeMatch.HoldFire = true;
+                yield return StartCoroutine(PlayShakeScript(new [] {
+                            new ShakeLine {
+                                Text = "\nENOUGH\n",
+                                Duration = 4,
+                                ShakeDuration = 1,
+                                ShakeForce = 0.8f,
+                            },
+                            new ShakeLine {
+                                Text = "",
+                                Duration = 1,
+                            },
+                            new ShakeLine {
+                                Text = "\nI\n",
+                                Duration = 2,
+                                ShakeDuration = 0.25f,
+                                ShakeForce = 0.1f,
+                            },
+                            new ShakeLine {
+                                Text = "\nAM\n",
+                                Duration = 2,
+                                ShakeDuration = 0.25f,
+                                ShakeForce = 0.1f,
+                            },
+                            new ShakeLine {
+                                Text = "\nPLACATED\n",
+                                Duration = 4,
+                                ShakeDuration = 0.25f,
+                                ShakeForce = 0.3f,
+                            },
+                        }));
+                root.SetActive(false);
+                yield return new WaitForSecondsRealtime(1);
+                yield return StartCoroutine(PlayShakeScript(new [] {
+                            new ShakeLine {
+                                Text = "\nI\n",
+                                Duration = 2,
+                                ShakeDuration = 0.25f,
+                                ShakeForce = 0.1f,
+                            },
+                            new ShakeLine {
+                                Text = "\nWILL\n",
+                                Duration = 2,
+                                ShakeDuration = 0.25f,
+                                ShakeForce = 0.1f,
+                            },
+                            new ShakeLine {
+                                Text = "\n\n",
+                                Duration = 2,
+                            },
+                            new ShakeLine {
+                                Text = "\nSLEEP\n",
+                                Duration = 4,
+                                ShakeDuration = 0.1f,
+                                ShakeForce = 0.05f,
+                            },
+                        }));
+                root.SetActive(false);
+                
+                yield return new WaitForSecondsRealtime(3);
+
+                yield return StartCoroutine(PlayTimedScript(new []{
+                            "\nYou did it!\n",
+                            "\n\nOh, the papers I'm going to publish...\n",
+                            "Thank you so much.\n\nYou saved us all!",
+                            "Well done!",
+                        }
+                        , 4f));
+                root.SetActive(false);
+
+                yield return new WaitForSecondsRealtime(3);
+
+                root.SetActive(true);
+                speechBox.text = "Egyptian Dare is a game by Andrew Fray\n@tenpn\nThank you for playing!";
+                yield break;
+
+            }
+
+            yield return null;
+        }
+
+        // death!
+        activeMatch.HoldFire = true;
+        yield return StartCoroutine(PlayShakeScript(new [] {
+                    new ShakeLine {
+                        Text = "\nENOUGH\n",
+                        Duration = 4,
+                        ShakeDuration = 1,
+                        ShakeForce = 0.8f,
+                    },
+                    new ShakeLine {
+                        Text = "",
+                        Duration = 1,
+                    },
+                    new ShakeLine {
+                        Text = "\nYOU\n",
+                        Duration = 2,
+                        ShakeDuration = 0.25f,
+                        ShakeForce = 0.1f,
+                    },
+                    new ShakeLine {
+                        Text = "\nARE\n",
+                        Duration = 2,
+                        ShakeDuration = 0.25f,
+                        ShakeForce = 0.1f,
+                    },
+                    new ShakeLine {
+                        Text = "\nWEAK\n",
+                        Duration = 4,
+                        ShakeDuration = 1f,
+                        ShakeForce = 1.25f,
+                    },
+                }));
+        root.SetActive(false);
+                
+        yield return new WaitForSecondsRealtime(3);
+
+        yield return StartCoroutine(PlayTimedScript(new []{
+                    "\nOh no...\n",
+                    "\n\nIf only there was some way to replay the game!\n",
+                    "I think this is the end!\n",
+                    "\nYou did your best, but goodbye!\n"
+                },
+                4f));
+        root.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(1);
+        shaker.StartShake(0.5f, 0.5f);
+        sfx.PlayOneShot(smallShake);
+        yield return new WaitForSecondsRealtime(0.75f);
+        shaker.StartShake(1f, 1f);
+        sfx.PlayOneShot(smallShake);
+        yield return new WaitForSecondsRealtime(1);
+        shaker.StartShake(1f, 2f);
+        sfx.PlayOneShot(bigShake);
+        yield return new WaitForSecondsRealtime(1);
+        shaker.StartShake(3f, 2f);
+        sfx.PlayOneShot(bigShake);
+        yield return new WaitForSecondsRealtime(1);
+        sfx.PlayOneShot(bigShake);
+
+        yield return new WaitForSecondsRealtime(4);
+        root.SetActive(true);
+        speechBox.text = "Egyptian Dare is a game by Andrew Fray\n@tenpn\nThank you for playing!";
     }
 }
