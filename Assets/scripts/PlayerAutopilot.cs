@@ -21,6 +21,10 @@ using UnityEngine;
 [RequireComponent(typeof(Player))]
 class PlayerAutopilot : MonoBehaviour {
 
+    public bool IsAutopiloted {
+        get { return isInControl; }
+    }
+
     //////////////////////////////////////////////////
 
     Player p;

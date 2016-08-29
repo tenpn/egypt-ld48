@@ -20,6 +20,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
+using UnityEngine.Analytics;
 
 using Random = UnityEngine.Random;
 
@@ -85,6 +86,7 @@ class Professor : MonoBehaviour {
         activeMatch.HoldFire = false;
         root.SetActive(false);
         currentState = State.WaitForFirstScore;
+        activeMatch.ReportScoresToAnalytics("tutorial-end");
     }
 
     void OnScore(Player p, float newScore) {
@@ -94,6 +96,7 @@ class Professor : MonoBehaviour {
             root.SetActive(true);
             currentState = State.WaitForRules;
             HideInSeconds(5);
+            activeMatch.ReportScoresToAnalytics("first-score");
             
         } else if (currentState == State.WaitForRules) {
             if (activeMatch.TotalGoalsScored > 5) {
@@ -122,6 +125,7 @@ class Professor : MonoBehaviour {
     }
 
     IEnumerator RulesScript() {
+        activeMatch.ReportScoresToAnalytics("script-start");
         activeMatch.RequestPause = true;
         activeMatch.HoldFire = true;
 
@@ -199,6 +203,7 @@ class Professor : MonoBehaviour {
         root.SetActive(true);
 
         StartCoroutine(EndlessRules());
+        activeMatch.ReportScoresToAnalytics("script-end");
     }
 
     class Rule {
@@ -350,6 +355,7 @@ class Professor : MonoBehaviour {
     
     IEnumerator EndlessRules() {
 
+        activeMatch.ReportScoresToAnalytics("endless-start");
         float endTime = Time.unscaledTime + 60 * 3f;
 
         while(endTime > Time.unscaledTime) {
@@ -579,6 +585,10 @@ class Professor : MonoBehaviour {
 
         activeMatch.HoldFire = true;
 
+        activeMatch.ReportScoresToAnalytics("endgame-intro");
+        foreach(var playerScore in playerScoreLabels) {
+            playerScore.SetActive(false);
+        }
         yield return StartCoroutine(PlayShakeScript(new [] {
                     new ShakeLine {
                         Text = "\nWHO\n",
@@ -761,7 +771,8 @@ class Professor : MonoBehaviour {
         root.SetActive(false);
         
         yield return new WaitForSecondsRealtime(0.5f);
-        
+
+        activeMatch.ReportScoresToAnalytics("endgame-start");
         activeMatch.HoldFire = false;
         yield return StartCoroutine(PlayShakeScript(new [] {
                     new ShakeLine {
@@ -773,9 +784,6 @@ class Professor : MonoBehaviour {
                 }));
         root.SetActive(false);
 
-        foreach(var playerScore in playerScoreLabels) {
-            playerScore.SetActive(false);
-        }
         endgameRoot.SetActive(true);
 
         float targetTime = Time.unscaledTime + 60f;
@@ -791,6 +799,11 @@ class Professor : MonoBehaviour {
             endgameScoreLabel.text = Mathf.Max(0, targetScore - newScore).ToString();
 
             if (newScore >= targetScore) {
+                Analytics.CustomEvent("endgame-complete", new Dictionary<string,object> {
+                        {"result", "win"},
+                        {"time-left", targetTime - Time.unscaledTime}
+                    });
+                
                 activeMatch.HoldFire = true;
                 yield return StartCoroutine(PlayShakeScript(new [] {
                             new ShakeLine {
@@ -871,6 +884,11 @@ class Professor : MonoBehaviour {
 
             yield return null;
         }
+
+        Analytics.CustomEvent("endgame-complete", new Dictionary<string,object> {
+                {"result", "loss"},
+                {"goals-left", targetScore - activeMatch.TotalGoalsScored },
+            });
 
         // death!
         activeMatch.HoldFire = true;

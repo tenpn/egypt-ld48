@@ -19,6 +19,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using UnityEngine.Assertions;
+using UnityEngine.Analytics;
 
 using Random = UnityEngine.Random;
 
@@ -74,6 +75,10 @@ class Match : MonoBehaviour {
         Assert.IsNotNull(mod);
         Assert.IsFalse(activeMods.Contains(mod), "mod " + mod + " already active");
         activeMods.Add(mod);
+
+        var analData = new Dictionary<string,object> {
+            { "type", mod.Type.ToString() }
+        };
         
         switch(mod.Type) {
         case MatchModType.MirrorSides:
@@ -83,21 +88,29 @@ class Match : MonoBehaviour {
         case MatchModType.Gravity:
             Physics2D.gravity = new Vector2(Physics2D.gravity.x,
                                             Physics2D.gravity.y * mod.Strength);
+            analData["strength"] = mod.Strength;
             break;
 
         case MatchModType.AmmoBoost:
             AmmoBoost *= mod.Strength;
+            analData["strength"] = mod.Strength;
             break;
             
         case MatchModType.Ball:
             Assert.IsNotNull(mod.Ball);
             activeBallMods.Add(mod.Ball);
+            analData["ball-pts"] = mod.Ball.PointsMul;
+            analData["ball-pow"] = mod.Ball.PowerAdd;
+            analData["ball-mass"] = mod.Ball.MassMul;
             break;
             
         case MatchModType.AltBall:
             Assert.IsNotNull(mod.Ball);
             altBallMods.Add(mod.Ball);
             isAltBallModsEnabled = true;
+            analData["ball-pts"] = mod.Ball.PointsMul;
+            analData["ball-pow"] = mod.Ball.PowerAdd;
+            analData["ball-mass"] = mod.Ball.MassMul;
             break;
         }
 
@@ -105,6 +118,8 @@ class Match : MonoBehaviour {
             ModsChanged(Player.PlayerIndex.P1, GetBallModsForPlayer(Player.PlayerIndex.P1));
             ModsChanged(Player.PlayerIndex.P2, GetBallModsForPlayer(Player.PlayerIndex.P2));
         }
+        
+        Analytics.CustomEvent("new-mod", analData);
     }
 
     public void RemoveMod(MatchMod modToRemove) {
@@ -175,6 +190,17 @@ class Match : MonoBehaviour {
             }
             return minP;
         }
+    }
+
+    public void ReportScoresToAnalytics(string eventID) {
+        Analytics.CustomEvent("stage", new Dictionary<string, object> {
+                { "id", eventID },
+                { "time", Time.timeSinceLevelLoad },
+                { "score-p1", GetScoreOfPlayer(Player.PlayerIndex.P1) },
+                { "score-p2", GetScoreOfPlayer(Player.PlayerIndex.P2) },
+                { "auto-p2", GetPlayer(Player.PlayerIndex.P2)
+                        .GetComponent<PlayerAutopilot>().IsAutopiloted }
+            });
     }
 
     public bool RequestPause = false;
