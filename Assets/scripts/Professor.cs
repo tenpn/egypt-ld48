@@ -678,7 +678,7 @@ class Professor : MonoBehaviour {
         yield return new WaitForSecondsRealtime(1);
         
         yield return StartCoroutine(PlayTimedScript(new []{
-                    "Ah well, Your... Sportiness?\n",
+                    "Ah, well, Your... Sportiness?\n",
                     "A long time has passed.\n\nYour children are gone.",
                     "We are here to study the history of this Ancient Civilisation\n",
                 }
@@ -767,7 +767,7 @@ class Professor : MonoBehaviour {
                     "This is not how I imagined my Thursday turning out.\n",
                     "Ok, just like we've been practicing, folks.\n",
                     "\nLet's show Da how we play this game downtown.\n",
-                    "Work together to score a combined 25 points in 60 seconds to placate the Deity!\n",
+                    "Work together to score a combined 30 points in 60 seconds to placate the Deity!\n",
                 }
                 , 4f));
         root.SetActive(false);
@@ -790,7 +790,7 @@ class Professor : MonoBehaviour {
 
         float targetTime = Time.unscaledTime + 60f;
         float baseScore = activeMatch.TotalGoalsScored;
-        float targetScore = baseScore + 25;
+        float targetScore = baseScore + 30;
 
         while(targetTime >= Time.unscaledTime) {
 
