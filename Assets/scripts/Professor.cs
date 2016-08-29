@@ -855,10 +855,8 @@ class Professor : MonoBehaviour {
                                 Duration = 2,
                             },
                             new ShakeLine {
-                                Text = "\nSLEEP\n",
+                                Text = "\nsleep\n",
                                 Duration = 4,
-                                ShakeDuration = 0.1f,
-                                ShakeForce = 0.05f,
                             },
                         }));
                 root.SetActive(false);
