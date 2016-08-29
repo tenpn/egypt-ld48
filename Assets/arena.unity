@@ -250,13 +250,13 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 319998851}
-  - {fileID: 1847737102}
   - {fileID: 560087799}
   - {fileID: 1353380042}
   - {fileID: 1488685524}
   - {fileID: 74616617}
   - {fileID: 2067670542}
   - {fileID: 1910235643}
+  - {fileID: 1847737102}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_AnchorMin: {x: 0, y: 0}
@@ -370,7 +370,7 @@ RectTransform:
   m_Children:
   - {fileID: 72134038}
   m_Father: {fileID: 65753865}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -15, y: 15}
@@ -1210,7 +1210,7 @@ RectTransform:
   m_Children:
   - {fileID: 637518325}
   m_Father: {fileID: 65753865}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -1257,7 +1257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RequestPause: 0
-  AmmoBoost: 1
+  ShootingBoost: 1
   goalCelebration: {fileID: 897416051}
   goalSfx: {fileID: 8300000, guid: e5c7bd02dcab749699cb222dd8d90cec, type: 3}
   bigGoalSfx: {fileID: 8300000, guid: d78e1f7e470e8406b88b34af5152f781, type: 3}
@@ -4520,7 +4520,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 65753865}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 9.8, y: -78.1}
@@ -4992,7 +4992,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 65753865}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -9.8, y: -78.1}
@@ -5453,7 +5453,7 @@ RectTransform:
   m_Children:
   - {fileID: 1548473967}
   m_Father: {fileID: 65753865}
-  m_RootOrder: 1
+  m_RootOrder: 7
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -55}
@@ -5735,7 +5735,7 @@ RectTransform:
   - {fileID: 922537095}
   - {fileID: 1979454433}
   m_Father: {fileID: 65753865}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -13.8, y: -29.2}
@@ -6075,7 +6075,7 @@ RectTransform:
   - {fileID: 1677239370}
   - {fileID: 1451410394}
   m_Father: {fileID: 65753865}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 13.8, y: -29.2}
