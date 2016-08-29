@@ -35,7 +35,7 @@ class Screenshake : MonoBehaviour {
     //////////////////////////////////////////////////
 
     void Awake() {
-        initPosition = transform.position;
+        initPosition = transform.localPosition;
     }
 
     IEnumerator Shake(float duration, float scale) {
@@ -47,13 +47,13 @@ class Screenshake : MonoBehaviour {
             
             float amp = maxAmplitude * amplitudeOverTime.Evaluate(normTime) * scale;
             var shakeOffset = Random.insideUnitCircle * amp;
-            transform.position = initPosition + (Vector3)shakeOffset;
+            transform.localPosition = initPosition + (Vector3)shakeOffset;
 
             timer += Time.unscaledDeltaTime;
 
             yield return null;
         }
 
-        transform.position = initPosition;
+        transform.localPosition = initPosition;
     }
 }
