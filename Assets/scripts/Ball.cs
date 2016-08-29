@@ -24,6 +24,7 @@ class Ball : MonoBehaviour {
 
     public Color Color {
         set { GetComponent<SpriteRenderer>().color = value; }
+        get { return GetComponent<SpriteRenderer>().color; }
     }
 
     public void ApplyMods(IList<BallMod> newMods) {
