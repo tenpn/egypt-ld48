@@ -864,7 +864,7 @@ class Professor : MonoBehaviour {
                 yield return new WaitForSecondsRealtime(3);
 
                 root.SetActive(true);
-                speechBox.text = "Egyptian Dare is a game by Andrew Fray\n@tenpn\nThank you for playing!";
+                speechBox.text = "Egyptian Dare\nAndrew Fray @tenpn\nThank you for playing!";
                 yield break;
 
             }
@@ -935,6 +935,6 @@ class Professor : MonoBehaviour {
 
         yield return new WaitForSecondsRealtime(4);
         root.SetActive(true);
-        speechBox.text = "Egyptian Dare is a game by Andrew Fray\n@tenpn\nThank you for playing!";
+        speechBox.text = "Egyptian Dare\nAndrew Fray @tenpn\nThank you for playing!";
     }
 }
