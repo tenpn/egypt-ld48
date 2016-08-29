@@ -29,7 +29,7 @@ public static class BallModExtensions {
     public static string SummariseMods(this IEnumerable<BallMod> mods, bool isForBall) {
         var res = "";
         if (mods.Points() != 1f) {
-            res += "x" + mods.Points() + "pts";
+            res += mods.Points() + "pts";
         }
         if (mods.MassMul() != 1f) {
             if (res != "") {
