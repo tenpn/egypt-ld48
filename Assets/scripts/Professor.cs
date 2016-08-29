@@ -491,7 +491,8 @@ class Professor : MonoBehaviour {
             }
 
             while(Input.GetButtonDown("P1Fire") == false
-                  && Input.GetButtonDown("P2Fire") == false) {
+                  && Input.GetButtonDown("P2Fire") == false
+                  && Input.GetKeyDown(KeyCode.Space) == false) {
                 yield return null;
             }
             sfx.Play();

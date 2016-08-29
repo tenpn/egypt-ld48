@@ -34,9 +34,13 @@ class PlayerInput : MonoBehaviour {
         var axis = p.Index == Player.PlayerIndex.P1 ? "P1Aim" : "P2Aim";
         var button = p.Index == Player.PlayerIndex.P1 ? "P1Fire" : "P2Fire";
 
+        // hack: space also fires for p1
+        bool isFiring = Input.GetButtonDown(button)
+            || (p.Index == Player.PlayerIndex.P1 && Input.GetKeyDown(KeyCode.Space));
+
         var newYoke = new PlayerYoke {
             Aim = Input.GetAxis(axis),
-            Fire = Input.GetButtonDown(button),
+            Fire = isFiring,
         };
 
         p.ApplyYoke(newYoke);

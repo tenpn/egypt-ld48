@@ -1101,7 +1101,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Press Fire to continue
 
-    (Left shift/M by default)'
+    (Left shift/Space/M)'
 --- !u!222 &418404835
 CanvasRenderer:
   m_ObjectHideFlags: 0
