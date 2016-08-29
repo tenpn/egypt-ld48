@@ -51,6 +51,8 @@ class Professor : MonoBehaviour {
     [SerializeField] Text endgameTimeLabel;
     [SerializeField] AudioClip bigShake;
     [SerializeField] AudioClip smallShake;
+    [SerializeField] Animator arena;
+    [SerializeField] GameObject entireUI;
 
     //////////////////////////////////////////////////
 
@@ -923,6 +925,7 @@ class Professor : MonoBehaviour {
         root.SetActive(false);
                 
         yield return new WaitForSecondsRealtime(3);
+        entireUI.SetActive(false);
 
         yield return StartCoroutine(PlayTimedScript(new []{
                     "\nOh no...\n",
@@ -942,14 +945,19 @@ class Professor : MonoBehaviour {
         sfx.PlayOneShot(smallShake);
         yield return new WaitForSecondsRealtime(1);
         shaker.StartShake(1f, 2f);
+        arena.SetTrigger("on-world-end");
         sfx.PlayOneShot(bigShake);
         yield return new WaitForSecondsRealtime(1);
         shaker.StartShake(3f, 2f);
         sfx.PlayOneShot(bigShake);
         yield return new WaitForSecondsRealtime(1);
         sfx.PlayOneShot(bigShake);
+        yield return new WaitForSecondsRealtime(1.5f);
+        shaker.StartShake(1f, 0.5f);
+        yield return new WaitForSecondsRealtime(1.5f);
+        shaker.StartShake(1f, 0.5f);
 
-        yield return new WaitForSecondsRealtime(4);
+        yield return new WaitForSecondsRealtime(1);
         root.SetActive(true);
         speechBox.text = "Egyptian Dare\nAndrew Fray @tenpn\nThank you for playing!";
     }
