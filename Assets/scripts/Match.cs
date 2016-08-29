@@ -192,6 +192,14 @@ class Match : MonoBehaviour {
         }
     }
 
+    public float AverageBallPoints {
+        get {
+            float total = activeBallMods.Points() + altBallMods.Points();
+            int count = isAltBallModsEnabled ? 2 : 1;
+            return total / (float)count;
+        }
+    }
+
     public void ReportScoresToAnalytics(string eventID) {
         Analytics.CustomEvent("stage", new Dictionary<string, object> {
                 { "id", eventID },

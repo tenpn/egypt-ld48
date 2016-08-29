@@ -537,18 +537,6 @@ class Professor : MonoBehaviour {
 
     IEnumerator EndGame() {
 
-        // make sure there's no terrible negative point multipliers
-        if (activeMatch.MinBallPoints < 1f) {
-            var mods = activeMatch.Mods;
-            for(int modIndex = 0; modIndex < mods.Count; ++modIndex) {
-                var mod = mods[modIndex];
-                if (mod.Ball != null && mod.Ball.PointsMul < 1f) {
-                    activeMatch.RemoveMod(mod);
-                    --modIndex;
-                }
-            }
-        }
-        
         var dareIntro = new []{
             new ShakeLine {
                 Text = "\n...\n",
@@ -762,12 +750,14 @@ class Professor : MonoBehaviour {
         root.SetActive(false);
         
         yield return new WaitForSecondsRealtime(2);
+
+        float targetDelta = Mathf.Ceil(30 * activeMatch.AverageBallPoints);
         
         yield return StartCoroutine(PlayTimedScript(new []{
                     "This is not how I imagined my Thursday turning out.\n",
                     "Ok, just like we've been practicing, folks.\n",
                     "\nLet's show Da how we play this game downtown.\n",
-                    "Work together to score a combined 30 points in 60 seconds to placate the Deity!\n",
+                    "Work together to score a combined " + targetDelta + " points in 60 seconds to placate the Deity!\n",
                 }
                 , 4f));
         root.SetActive(false);
@@ -790,7 +780,7 @@ class Professor : MonoBehaviour {
 
         float targetTime = Time.unscaledTime + 60f;
         float baseScore = activeMatch.TotalGoalsScored;
-        float targetScore = baseScore + 30;
+        float targetScore = baseScore + targetDelta;
 
         while(targetTime >= Time.unscaledTime) {
 
