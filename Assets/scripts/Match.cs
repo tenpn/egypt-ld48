@@ -92,7 +92,7 @@ class Match : MonoBehaviour {
             break;
 
         case MatchModType.AmmoBoost:
-            AmmoBoost *= mod.Strength;
+            ShootingBoost *= mod.Strength;
             analData["strength"] = mod.Strength;
             break;
             
@@ -139,7 +139,7 @@ class Match : MonoBehaviour {
             break;
 
         case MatchModType.AmmoBoost:
-            AmmoBoost /= modToRemove.Strength;
+            ShootingBoost /= modToRemove.Strength;
             break;
             
         case MatchModType.Ball:
@@ -205,7 +205,7 @@ class Match : MonoBehaviour {
 
     public bool RequestPause = false;
 
-    public float AmmoBoost = 1f;
+    public float ShootingBoost = 1f;
 
     //////////////////////////////////////////////////
 

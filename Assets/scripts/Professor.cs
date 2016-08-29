@@ -308,7 +308,7 @@ class Professor : MonoBehaviour {
         new Rule {
             CreateMod = () => new MatchMod {
                 Type = MatchModType.AmmoBoost,
-                Strength = 1.5f,
+                Strength = 3f,
             },
             Intro = "Scrolls from Nubia imply each player had more shots\n",
             Outro = "...but they may have been talking about ultimate frisbee?\n",

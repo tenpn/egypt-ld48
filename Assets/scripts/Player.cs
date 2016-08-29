@@ -56,7 +56,7 @@ class Player : MonoBehaviour {
         }
         transform.eulerAngles = currentAngles;
 
-        ammo += Time.unscaledDeltaTime * rechargeRate;
+        ammo += Time.unscaledDeltaTime * rechargeRate * activeMatch.ShootingBoost;
         ammo = Mathf.Min(MaxAmmo, ammo);
         cooldown -= Time.deltaTime;
 
@@ -96,7 +96,7 @@ class Player : MonoBehaviour {
     }
 
     public float MaxAmmo {
-        get { return maxAmmo * activeMatch.AmmoBoost; }
+        get { return maxAmmo * activeMatch.ShootingBoost; }
     }
 
     //////////////////////////////////////////////////
