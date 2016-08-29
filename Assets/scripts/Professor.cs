@@ -369,8 +369,10 @@ class Professor : MonoBehaviour {
             if (chosenRule != null) {
 
                 --stepsUntilAlts;
-                bool isAlt = stepsUntilAlts <= 0 && Random.value < altChance;
                 var mod = chosenRule.CreateMod();
+                bool isAlt = stepsUntilAlts <= 0
+                    && Random.value < altChance
+                    && mod.Type == MatchModType.Ball;
                 mod.Type = mod.Type == MatchModType.Ball && isAlt ? MatchModType.AltBall
                     : mod.Type;
 
