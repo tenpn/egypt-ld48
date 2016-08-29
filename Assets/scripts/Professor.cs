@@ -350,7 +350,7 @@ class Professor : MonoBehaviour {
     
     IEnumerator EndlessRules() {
 
-        float endTime = Time.unscaledTime + 60 * 3;
+        float endTime = Time.unscaledTime + 60 * 3f;
 
         while(endTime > Time.unscaledTime) {
             float interval = Random.Range(5f, 8f);
@@ -691,7 +691,7 @@ class Professor : MonoBehaviour {
         yield return new WaitForSecondsRealtime(1);
 
         yield return StartCoroutine(PlayTimedScript(new []{
-                    "Yes, Oh Mighty Jock\n",
+                    "Y-yes, oh Mighty Jock\n",
                     "But we honour them through research!\n"
                 },
                 4f));
@@ -755,7 +755,7 @@ class Professor : MonoBehaviour {
                     "This is not how I imagined my Thursday turning out.\n",
                     "Ok, just like we've been practicing, folks.\n",
                     "\nLet's show Da how we play this game downtown.\n",
-                    "Score a combined 100 points in 60 seconds to placate the Deity!\n",
+                    "Work together to score a combined 25 points in 60 seconds to placate the Deity!\n",
                 }
                 , 4f));
         root.SetActive(false);
@@ -780,15 +780,15 @@ class Professor : MonoBehaviour {
 
         float targetTime = Time.unscaledTime + 60f;
         float baseScore = activeMatch.TotalGoalsScored;
-        float targetScore = baseScore + 100;
+        float targetScore = baseScore + 25;
 
-        while(targetTime > Time.unscaledTime) {
+        while(targetTime >= Time.unscaledTime) {
 
             float newScore = activeMatch.TotalGoalsScored;
 
             endgameTimeLabel.text
                 = Mathf.FloorToInt(targetTime - Time.unscaledTime).ToString();
-            endgameScoreLabel.text = (targetScore - newScore).ToString();
+            endgameScoreLabel.text = Mathf.Max(0, targetScore - newScore).ToString();
 
             if (newScore >= targetScore) {
                 activeMatch.HoldFire = true;
@@ -912,6 +912,7 @@ class Professor : MonoBehaviour {
                     "\nOh no...\n",
                     "\n\nIf only there was some way to replay the game!\n",
                     "I think this is the end!\n",
+                    "\n\nOh, the papers I could have published...\n",
                     "\nYou did your best, but goodbye!\n"
                 },
                 4f));
