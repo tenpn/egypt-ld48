@@ -23,6 +23,10 @@ class Professor : MonoBehaviour {
     [SerializeField] GameObject continueHelper;
     [SerializeField] GameObject root;
     [SerializeField] AudioSource sfx;
+    [SerializeField] Screenshake shaker;
+    [SerializeField] Image speechBG;
+    [SerializeField] Sprite ludumBG;
+    [SerializeField] Sprite dareBG;
 
     //////////////////////////////////////////////////
 
@@ -427,6 +431,7 @@ class Professor : MonoBehaviour {
         }
 
         root.SetActive(true);
+        speechBG.sprite = ludumBG;
         speechBox.text = text;
         
         yield return new WaitForSecondsRealtime(5);
@@ -439,6 +444,7 @@ class Professor : MonoBehaviour {
 
     IEnumerator PlayScript(IList<string> script, float initDelay) {
         root.SetActive(true);
+        speechBG.sprite = ludumBG;
         continueHelper.SetActive(true);
         
         foreach(var text in script) {
@@ -460,12 +466,69 @@ class Professor : MonoBehaviour {
         continueHelper.SetActive(false);
     }
 
-    IEnumerator PlayTimedScript(IList<string> script, float delay) {
+    IEnumerator PlayTimedScript(IList<string> script,
+                                float delay,
+                                float shake = 0f,
+                                float shakeDuration = 0f) {
         root.SetActive(true);
+        speechBG.sprite = ludumBG;
         
         foreach(var line in script) {
             speechBox.text = line;
+            if (shake > 0f) {
+                Debug.Log("shake for " + line);
+                shaker.StartShake(shakeDuration, shake);
+            }
             yield return new WaitForSecondsRealtime(delay);
         }
+    }
+
+    struct ShakeLine {
+        public string Text;
+        public float Duration;
+        public float ShakeDuration;
+        public float ShakeForce;
+    }
+
+    IEnumerator PlayShakeScript(IList<ShakeLine> script) {
+        root.SetActive(true);
+        speechBG.sprite = dareBG;
+
+        foreach(var line in script) {
+            speechBox.text = line.Text;
+            if (line.ShakeForce > 0f) {
+                shaker.StartShake(line.ShakeDuration, line.ShakeForce);
+            }
+            yield return new WaitForSecondsRealtime(line.Duration);
+        }
+    }
+
+
+    IEnumerator EndGame() {
+        var dareIntro = new []{
+            new ShakeLine {
+                Text = "\n...\n",
+                Duration = 2,
+                ShakeDuration = 0.5f,
+                ShakeForce = 0.25f,
+            },
+            new ShakeLine {
+                Text = "\n... ...\n",
+                Duration = 2,
+                ShakeDuration = 1f,
+                ShakeForce = 0.6f,
+            },
+            new ShakeLine {
+                Text = "\n... ... ...\n",
+                Duration = 3,
+                ShakeDuration = 2,
+                ShakeForce = 1.2f,
+            },
+        };
+
+        yield return StartCoroutine(PlayShakeScript(dareIntro));
+        root.SetActive(false);
+
+        yield break;
     }
 }

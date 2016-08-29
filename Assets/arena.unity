@@ -2001,7 +2001,7 @@ RectTransform:
   - {fileID: 2067670542}
   - {fileID: 1910235643}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -2307,7 +2307,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 870294423}
     m_Modifications:
     - target: {fileID: 4000011793699932, guid: fa21a521bca7c49588f6abc799982295, type: 2}
       propertyPath: m_LocalPosition.x
@@ -2323,15 +2323,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011793699932, guid: fa21a521bca7c49588f6abc799982295, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4000011793699932, guid: fa21a521bca7c49588f6abc799982295, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4000011793699932, guid: fa21a521bca7c49588f6abc799982295, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4000011793699932, guid: fa21a521bca7c49588f6abc799982295, type: 2}
       propertyPath: m_LocalRotation.w
@@ -2339,7 +2339,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011793699932, guid: fa21a521bca7c49588f6abc799982295, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 1000010845113788, guid: fa21a521bca7c49588f6abc799982295, type: 2}
       propertyPath: m_Name
@@ -2367,7 +2367,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 870294423}
     m_Modifications:
     - target: {fileID: 4000011793699932, guid: fa21a521bca7c49588f6abc799982295, type: 2}
       propertyPath: m_LocalPosition.x
@@ -2383,15 +2383,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011793699932, guid: fa21a521bca7c49588f6abc799982295, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4000011793699932, guid: fa21a521bca7c49588f6abc799982295, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4000011793699932, guid: fa21a521bca7c49588f6abc799982295, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4000011793699932, guid: fa21a521bca7c49588f6abc799982295, type: 2}
       propertyPath: m_LocalRotation.w
@@ -2399,7 +2399,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011793699932, guid: fa21a521bca7c49588f6abc799982295, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 1000010845113788, guid: fa21a521bca7c49588f6abc799982295, type: 2}
       propertyPath: m_Name
@@ -2925,6 +2925,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RequestPause: 0
+  AmmoBoost: 1
   goalCelebration: {fileID: 897416051}
   goalSfx: {fileID: 8300000, guid: e5c7bd02dcab749699cb222dd8d90cec, type: 3}
   bigGoalSfx: {fileID: 8300000, guid: d78e1f7e470e8406b88b34af5152f781, type: 3}
@@ -2945,7 +2946,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
 --- !u!82 &597191040
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3360,6 +3361,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 870294423}
+  - 114: {fileID: 870294424}
   m_Layer: 0
   m_Name: Arena
   m_TagString: Untagged
@@ -3399,8 +3401,38 @@ Transform:
   - {fileID: 1882015791}
   - {fileID: 655077008}
   - {fileID: 965873930}
+  - {fileID: 1009989078}
+  - {fileID: 1669978553}
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &870294424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 870294422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31654970079443d9b5a51712d5cda42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxAmplitude: 1
+  amplitudeOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: -1
+      outSlope: 0
+      tangentMode: 5
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1 &876514337
 GameObject:
   m_ObjectHideFlags: 0
@@ -5492,7 +5524,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 4
 --- !u!1 &965873929
 GameObject:
   m_ObjectHideFlags: 0
@@ -5624,6 +5656,11 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 146992403}
   m_Script: {fileID: 11500000, guid: ddf022cbf9e7848dc906c06c08efb7d1, type: 3}
+--- !u!4 &1009989078 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4000011793699932, guid: fa21a521bca7c49588f6abc799982295,
+    type: 2}
+  m_PrefabInternal: {fileID: 146992403}
 --- !u!1 &1014310431
 GameObject:
   m_ObjectHideFlags: 0
@@ -6666,6 +6703,11 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 111057709}
   m_Script: {fileID: 11500000, guid: ddf022cbf9e7848dc906c06c08efb7d1, type: 3}
+--- !u!4 &1669978553 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4000011793699932, guid: fa21a521bca7c49588f6abc799982295,
+    type: 2}
+  m_PrefabInternal: {fileID: 111057709}
 --- !u!1 &1677239369
 GameObject:
   m_ObjectHideFlags: 0
@@ -6965,6 +7007,10 @@ MonoBehaviour:
   continueHelper: {fileID: 418404832}
   root: {fileID: 1548473966}
   sfx: {fileID: 1847737104}
+  shaker: {fileID: 870294424}
+  speechBG: {fileID: 1880357323}
+  ludumBG: {fileID: 21300000, guid: 173595a03941947a69d8bd4881b78b76, type: 3}
+  dareBG: {fileID: 21300000, guid: 466260e5fbb1e4203b148bdf87ac7d3c, type: 3}
 --- !u!82 &1847737104
 AudioSource:
   m_ObjectHideFlags: 0
