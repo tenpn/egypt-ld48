@@ -526,6 +526,19 @@ class Professor : MonoBehaviour {
 
 
     IEnumerator EndGame() {
+
+        // make sure there's no terrible negative point multipliers
+        if (activeMatch.MinBallPoints < 1f) {
+            var mods = activeMatch.Mods;
+            for(int modIndex = 0; modIndex < mods.Count; ++modIndex) {
+                var mod = mods[modIndex];
+                if (mod.Ball != null && mod.Ball.PointsMul < 1f) {
+                    activeMatch.RemoveMod(mod);
+                    --modIndex;
+                }
+            }
+        }
+        
         var dareIntro = new []{
             new ShakeLine {
                 Text = "\n...\n",

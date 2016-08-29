@@ -64,6 +64,10 @@ class Match : MonoBehaviour {
         }
     }
 
+    public IList<MatchMod> Mods {
+        get { return activeMods; }
+    }
+
     public event Action<Player.PlayerIndex, IEnumerable<BallMod>> ModsChanged;
 
     public void AddMod(MatchMod mod) {
@@ -157,6 +161,19 @@ class Match : MonoBehaviour {
         if (ModsChanged != null) {
             // get mods again, because we've cycled shot
             ModsChanged(sourcePlayer, GetBallModsForPlayer(sourcePlayer));
+        }
+    }
+
+    public float MinBallPoints {
+        get {
+            float minP = float.MaxValue;
+            foreach(var mainMod in activeBallMods) {
+                minP = Mathf.Min(mainMod.PointsMul, minP);
+            }
+            foreach(var altMod in altBallMods) {
+                minP = Mathf.Min(altMod.PointsMul, minP);
+            }
+            return minP;
         }
     }
 
