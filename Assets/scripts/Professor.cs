@@ -183,11 +183,12 @@ class Professor : MonoBehaviour {
                 Ball = new BallMod { MassMul = 2.5f },
             },
             "A beautiful tablet!\n\nAnd it says the balls should be heavier!\n",
-            ForDuration(45),
+            ForDuration(40),
             "Not again! A peer review has rejected my heavier-balls hypothesis.\n");
+        // will overlap with following rules:
         StartCoroutine(heavyBalls);
                                 
-        yield return new WaitForSecondsRealtime(30);
+        yield return new WaitForSecondsRealtime(20);
         
         var flipGravity = ApplyMod(
             new MatchMod {
@@ -199,8 +200,7 @@ class Professor : MonoBehaviour {
             "\n...I guess not!\n");
         yield return StartCoroutine(flipGravity);
 
-        yield return new WaitForSecondsRealtime(10);
-        root.SetActive(true);
+        yield return new WaitForSecondsRealtime(20);
 
         StartCoroutine(EndlessRules());
         activeMatch.ReportScoresToAnalytics("script-end");
